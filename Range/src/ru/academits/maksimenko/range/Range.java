@@ -9,6 +9,9 @@ public class Range {
         this.to = to;
     }
 
+    /**
+     * @noinspection unused
+     */
     public double getFrom() {
         return from;
     }
@@ -17,6 +20,9 @@ public class Range {
         this.from = from;
     }
 
+    /**
+     * @noinspection unused
+     */
     public double getTo() {
         return to;
     }
@@ -33,7 +39,7 @@ public class Range {
         return new Range(Math.max(from, range.from), Math.min(to, range.to));
     }
 
-    public Range[] getMerger(Range range) {
+    public Range[] getUnion(Range range) {
         if (range.to < from || to < range.from) {
             return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
@@ -61,8 +67,16 @@ public class Range {
         return new Range[]{new Range(from, to)};
     }
 
+    public double getLength() {
+        return to - from;
+    }
+
+    public boolean isInside(double number) {
+        return number >= from && number <= to;
+    }
+
     @Override
     public String toString() {
-        return "{ " + "from = " + from + ", to = " + to + " }";
+        return "{" + from + ", " + to + "}";
     }
 }
