@@ -43,7 +43,6 @@ public class Vector {
         }
     }
 
-
     public void subtract(Vector vector) {
         if (vector.getSize() > coordinates.length) {
             coordinates = Arrays.copyOf(coordinates, vector.getSize());
