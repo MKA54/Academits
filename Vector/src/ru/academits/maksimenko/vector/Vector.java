@@ -123,10 +123,6 @@ public class Vector {
         return result;
     }
 
-    public double[] getCoordinates() {
-        return coordinates;
-    }
-
     @Override
     public String toString() {
         if (coordinates.length == 0) {
