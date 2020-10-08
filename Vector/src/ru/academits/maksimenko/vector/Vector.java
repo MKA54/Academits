@@ -80,7 +80,7 @@ public class Vector {
             throw new IndexOutOfBoundsException("index " + index + " out of bounds for length " + coordinates.length);
         }
 
-        if (index > coordinates.length) {
+        if (index >= coordinates.length) {
             throw new IndexOutOfBoundsException("index " + index + " out of bounds for length " + coordinates.length);
         }
     }
@@ -121,6 +121,10 @@ public class Vector {
         }
 
         return result;
+    }
+
+    public double[] getCoordinates() {
+        return coordinates;
     }
 
     @Override

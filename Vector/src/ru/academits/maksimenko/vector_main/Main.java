@@ -37,8 +37,8 @@ public class Main {
         double coordinate = vector2.getCoordinateByIndex(2);
         System.out.println("Полученная координата по индексу: " + coordinate);
 
-        vector2.setCoordinateByIndex(4, coordinate);
-        System.out.println(vector2);
+        vector2.setCoordinateByIndex(3, coordinate);
+        System.out.println("!!!!!!!!!! " + vector2);
 
         double[] coordinates2 = new double[]{1, 2, 3, 4, 5};
         Vector vector5 = new Vector(coordinates2);
