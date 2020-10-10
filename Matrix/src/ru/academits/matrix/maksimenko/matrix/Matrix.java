@@ -147,8 +147,18 @@ public class Matrix {
         return result;
     }
 
-    public Vector[] multiplyByVector(Vector vector) {
-        Vector[] result = new Vector[vector.getSize()];
+    public Vector multiplyByVector(Vector vector) {
+        if (vector.getSize() > vectorsArray[0].getSize()) {
+            throw new RuntimeException("The dimension of the vector is greater than the length of the matrix: vector "
+                    + vector.getSize() + " matrix " + vectorsArray.length);
+        }
+
+        if (vector.getSize() < vectorsArray[0].getSize()) {
+            throw new RuntimeException("The dimension of the vector is less than the length of the matrix: vector "
+                    + vector.getSize() + " matrix " + vectorsArray.length);
+        }
+
+        double[] result = new double[vector.getSize()];
 
         for (int i = 0; i < result.length; i++) {
             double value = 0;
@@ -157,10 +167,10 @@ public class Matrix {
                 value += vector.getCoordinateByIndex(j) * vectorsArray[i].getCoordinateByIndex(j);
             }
 
-            result[i] = new Vector(new double[]{value});
+            result[i] = value;
         }
 
-        return result;
+        return new Vector(result);
     }
 
     public void add(Matrix matrix) {
@@ -173,6 +183,32 @@ public class Matrix {
         for (int i = 0; i < vectorsArray.length; i++) {
             vectorsArray[i] = Vector.subtractVectors(vectorsArray[i], matrix.vectorsArray[i]);
         }
+    }
+
+    public static Matrix addMatrices(Matrix matrix1, Matrix matrix2) {
+        Matrix result = new Matrix(matrix1);
+
+        result.add(matrix2);
+
+        return result;
+    }
+
+    public static Matrix subtractMatrices(Matrix matrix1, Matrix matrix2) {
+        Matrix result = new Matrix(matrix1);
+
+        result.subtract(matrix2);
+
+        return result;
+    }
+
+    public static Matrix multiplicationMatrix(Matrix matrix1, Matrix matrix2) {
+        Vector[] result = new Vector[matrix1.vectorsArray.length];
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = new Vector(matrix1.multiplyByVector(matrix2.getColumnVector(i)));
+        }
+
+        return new Matrix(result);
     }
 
     @Override
