@@ -185,7 +185,18 @@ public class Matrix {
         }
     }
 
+    private static void checkMatricesForDimension(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.vectorsArray.length != matrix2.vectorsArray.length ||
+                matrix1.vectorsArray[0].getSize() != matrix2.vectorsArray[0].getSize()) {
+            throw new RuntimeException("matrices of different order: matrix1 " + matrix1.vectorsArray[0].getSize() +
+                    "x" + matrix1.vectorsArray.length + ", matrix2 " + matrix2.vectorsArray[0].getSize() + "x" +
+                    matrix2.vectorsArray.length);
+        }
+    }
+
     public static Matrix addMatrices(Matrix matrix1, Matrix matrix2) {
+        checkMatricesForDimension(matrix1, matrix2);
+
         Matrix result = new Matrix(matrix1);
 
         result.add(matrix2);
@@ -194,6 +205,8 @@ public class Matrix {
     }
 
     public static Matrix subtractMatrices(Matrix matrix1, Matrix matrix2) {
+        checkMatricesForDimension(matrix1, matrix2);
+
         Matrix result = new Matrix(matrix1);
 
         result.subtract(matrix2);
@@ -202,6 +215,8 @@ public class Matrix {
     }
 
     public static Matrix multiplicationMatrix(Matrix matrix1, Matrix matrix2) {
+        checkMatricesForDimension(matrix1, matrix2);
+
         Vector[] result = new Vector[matrix1.vectorsArray.length];
 
         for (int i = 0; i < result.length; i++) {
