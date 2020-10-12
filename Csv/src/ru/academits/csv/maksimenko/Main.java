@@ -4,7 +4,7 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("Таблицааа.csv"));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("Таблица.csv"));
              PrintWriter printWriter = new PrintWriter("Таблица.html")) {
             String line;
 
