@@ -24,9 +24,9 @@ public class Square implements Shape {
 
     @Override
     public double getPerimeter() {
-        int countSides = 4;
+        final int sidesCount = 4;
 
-        return sideLength * countSides;
+        return sideLength * sidesCount;
     }
 
     @Override
@@ -35,13 +35,13 @@ public class Square implements Shape {
             return true;
         }
 
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
-        Square s = (Square) o;
+        Square square = (Square) o;
 
-        return sideLength == s.sideLength;
+        return sideLength == square.sideLength;
     }
 
     @Override

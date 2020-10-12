@@ -26,9 +26,9 @@ public class Rectangle implements Shape {
 
     @Override
     public double getPerimeter() {
-        int countSides = 2;
+        final int oppositeSidesCount = 2;
 
-        return countSides * (width + height);
+        return oppositeSidesCount * (width + height);
     }
 
     @Override
@@ -37,13 +37,13 @@ public class Rectangle implements Shape {
             return true;
         }
 
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
-        Rectangle r = (Rectangle) o;
+        Rectangle rectangle = (Rectangle) o;
 
-        return width == r.width && height == r.height;
+        return width == rectangle.width && height == rectangle.height;
     }
 
     @Override
