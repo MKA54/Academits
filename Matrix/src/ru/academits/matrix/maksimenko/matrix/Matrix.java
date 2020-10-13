@@ -13,6 +13,10 @@ public class Matrix {
     }
 
     public Matrix(double[][] array) {
+        if (array.length == 0) {
+            throw new IndexOutOfBoundsException("invalid array length: " + array.length);
+        }
+
         vectorsArray = new Vector[array.length];
 
         for (int i = 0; i < array.length; i++) {
