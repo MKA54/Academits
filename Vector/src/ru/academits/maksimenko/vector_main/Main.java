@@ -38,7 +38,7 @@ public class Main {
         System.out.println("Полученная координата по индексу: " + coordinate);
 
         vector2.setCoordinateByIndex(3, coordinate);
-        System.out.println("!!!!!!!!!! " + vector2);
+        System.out.println(vector2);
 
         double[] coordinates2 = new double[]{1, 2, 3, 4, 5};
         Vector vector5 = new Vector(coordinates2);
@@ -46,13 +46,13 @@ public class Main {
         double[] coordinates3 = new double[]{1, 2, 3, 4, 5};
         Vector vector6 = new Vector(coordinates3);
 
-        double scalarProductVectors = Vector.scalarProductVectors(vector5, vector6);
+        double scalarProductVectors = Vector.getScalarProduct(vector5, vector6);
         System.out.println("Скалярное произведение векторов: " + scalarProductVectors);
 
-        Vector vector8 = Vector.addVectors(vector5, vector6);
+        Vector vector8 = Vector.getSum(vector5, vector6);
         System.out.println(vector8);
 
-        Vector vector9 = Vector.subtractVectors(vector5, vector6);
+        Vector vector9 = Vector.getDifference(vector5, vector6);
         System.out.println(vector9);
     }
 }
