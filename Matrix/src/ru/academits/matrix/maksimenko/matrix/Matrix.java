@@ -112,7 +112,7 @@ public class Matrix {
         vectorsArray = newVector;
     }
 
-    public void multiplyByScalar(int scalar) {
+    public void multiplyByScalar(double scalar) {
         for (Vector vector : vectorsArray) {
             vector.multiplyByScalar(scalar);
         }
