@@ -68,7 +68,7 @@ public class Main {
 
         Vector vector4 = new Vector(new double[]{1, 2, -1});
 
-        Vector vector5 = matrix6.multiplyByVector(vector4);
+        Vector vector5 = matrix6.getMultiplyByVector(vector4);
         System.out.println("Результат умножения матрицы на вектор: " + vector5);
 
         matrix5.add(matrix6);
@@ -77,10 +77,10 @@ public class Main {
         matrix6.subtract(matrix5);
         System.out.println("Результат вычитания матрицы: " + matrix6);
 
-        Matrix matrix7 = Matrix.addMatrices(matrix6, matrix5);
+        Matrix matrix7 = Matrix.getSum(matrix6, matrix5);
         System.out.println("Результат сложения матриц: " + matrix7);
 
-        Matrix matrix8 = Matrix.subtractMatrices(matrix7, matrix5);
+        Matrix matrix8 = Matrix.getDifference(matrix7, matrix5);
         System.out.println("Результат разности матриц: " + matrix8);
 
         Vector[] vectors4 = new Vector[]{new Vector(new double[]{1, 2, 3}), new Vector(new double[]{4, 5, 6}),
@@ -93,7 +93,7 @@ public class Main {
 
         Matrix matrix10 = new Matrix(vectors5);
 
-        Matrix matrix11 = Matrix.multiplicationMatrix(matrix9, matrix10);
+        Matrix matrix11 = Matrix.getMultiplicationProduct(matrix9, matrix10);
         System.out.println("Результат умножения матриц: " + matrix11);
     }
 }

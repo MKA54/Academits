@@ -25,6 +25,10 @@ public class Matrix {
     }
 
     public Matrix(Vector[] vector) {
+        if (vector.length == 0) {
+            throw new IndexOutOfBoundsException("invalid array length: " + vector.length);
+        }
+
         int maxLength = 0;
 
         for (Vector v : vector) {
@@ -147,7 +151,7 @@ public class Matrix {
         return result;
     }
 
-    public Vector multiplyByVector(Vector vector) {
+    public Vector getMultiplyByVector(Vector vector) {
         if (vector.getSize() > vectorsArray[0].getSize()) {
             throw new RuntimeException("The dimension of the vector is greater than the length of the matrix: vector "
                     + vector.getSize() + " matrix " + vectorsArray.length);
@@ -175,13 +179,13 @@ public class Matrix {
 
     public void add(Matrix matrix) {
         for (int i = 0; i < vectorsArray.length; i++) {
-            vectorsArray[i] = Vector.addVectors(vectorsArray[i], matrix.vectorsArray[i]);
+            vectorsArray[i] = Vector.getSum(vectorsArray[i], matrix.vectorsArray[i]);
         }
     }
 
     public void subtract(Matrix matrix) {
         for (int i = 0; i < vectorsArray.length; i++) {
-            vectorsArray[i] = Vector.subtractVectors(vectorsArray[i], matrix.vectorsArray[i]);
+            vectorsArray[i] = Vector.getDifference(vectorsArray[i], matrix.vectorsArray[i]);
         }
     }
 
@@ -194,7 +198,7 @@ public class Matrix {
         }
     }
 
-    public static Matrix addMatrices(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
         checkMatricesForDimension(matrix1, matrix2);
 
         Matrix result = new Matrix(matrix1);
@@ -204,7 +208,7 @@ public class Matrix {
         return result;
     }
 
-    public static Matrix subtractMatrices(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
         checkMatricesForDimension(matrix1, matrix2);
 
         Matrix result = new Matrix(matrix1);
@@ -214,13 +218,13 @@ public class Matrix {
         return result;
     }
 
-    public static Matrix multiplicationMatrix(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getMultiplicationProduct(Matrix matrix1, Matrix matrix2) {
         checkMatricesForDimension(matrix1, matrix2);
 
         Vector[] result = new Vector[matrix1.vectorsArray.length];
 
         for (int i = 0; i < result.length; i++) {
-            result[i] = new Vector(matrix1.multiplyByVector(matrix2.getColumnVector(i)));
+            result[i] = new Vector(matrix1.getMultiplyByVector(matrix2.getColumnVector(i)));
         }
 
         return new Matrix(result);
@@ -228,13 +232,9 @@ public class Matrix {
 
     @Override
     public String toString() {
-        if (vectorsArray.length == 0) {
-            return "{ }";
-        }
-
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("{ ");
+        stringBuilder.append("{");
 
         for (Vector v : vectorsArray) {
             stringBuilder.append(v).append(", ");
@@ -242,7 +242,7 @@ public class Matrix {
 
         stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
 
-        stringBuilder.append(" }");
+        stringBuilder.append("}");
 
         return stringBuilder.toString();
     }
