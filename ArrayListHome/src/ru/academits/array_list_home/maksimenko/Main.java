@@ -15,7 +15,7 @@ public class Main {
         ArrayList<Integer> numbersList = new ArrayList<>(Arrays.asList(9, 9, 1, 2, 2, 5, 3, 1, 4, 5, 9, 6, 7, 3, 8, 9));
 
         deleteEvenNumbers(numbersList);
-        System.out.println("Список целых чисел после удаления четных числе: " + numbersList);
+        System.out.println("Список целых чисел после удаления четных чисел: " + numbersList);
 
         ArrayList<Integer> uniqueNumbersList = getUniqueNumbers(numbersList);
         System.out.println("Список уникальных значений: " + uniqueNumbersList);
