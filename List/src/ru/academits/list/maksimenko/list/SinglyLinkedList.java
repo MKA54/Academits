@@ -90,9 +90,16 @@ public class SinglyLinkedList<T> {
     }
 
     public void insertByIndex(int index, T data) {
-        if (index == 0) {
-            checkIndex(index);
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("The index has a negative value: " + index);
+        }
 
+        if (index > count) {
+            throw new IndexOutOfBoundsException("Index greater than the length of the list: index " + index +
+                    ", size " + count);
+        }
+
+        if (index == 0) {
             insertByBeginning(data);
         }
 
