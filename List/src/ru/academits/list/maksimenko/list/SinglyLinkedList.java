@@ -4,11 +4,9 @@ public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
 
-    public SinglyLinkedList() {
-    }
-
     public SinglyLinkedList(ListItem<T> head) {
         this.head = head;
+        ++count;
     }
 
     public int getSize() {
@@ -58,6 +56,8 @@ public class SinglyLinkedList<T> {
 
             deleteFirstElement();
 
+            count--;
+
             return data;
         }
 
@@ -67,6 +67,8 @@ public class SinglyLinkedList<T> {
         data = current.getData();
 
         previous.setNext(current.getNext());
+
+        count--;
 
         return data;
     }
@@ -94,6 +96,8 @@ public class SinglyLinkedList<T> {
             }
         }
 
+        count--;
+
         return false;
     }
 
@@ -101,6 +105,8 @@ public class SinglyLinkedList<T> {
         T data = head.getData();
 
         head = head.getNext();
+
+        count--;
 
         return data;
     }
@@ -130,5 +136,18 @@ public class SinglyLinkedList<T> {
         }
 
         return copy;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (ListItem<T> current = head; current != null; current = current.getNext()) {
+            stringBuilder.append(current.getData()).append(", ");
+        }
+
+        stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
+
+        return stringBuilder.toString();
     }
 }
