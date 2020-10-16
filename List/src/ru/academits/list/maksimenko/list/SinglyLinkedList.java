@@ -66,7 +66,7 @@ public class SinglyLinkedList<T> {
         if (index == 0) {
             data = head.getData();
 
-            deleteFirstElement();
+            deleteFirstItem();
 
             count--;
 
@@ -90,9 +90,9 @@ public class SinglyLinkedList<T> {
     }
 
     public void insertByIndex(int index, T data) {
-        checkIndex(index);
-
         if (index == 0) {
+            checkIndex(index);
+
             insertByBeginning(data);
         }
 
@@ -115,7 +115,7 @@ public class SinglyLinkedList<T> {
         return false;
     }
 
-    public T deleteFirstElement() {
+    public T deleteFirstItem() {
         T data = head.getData();
 
         head = head.getNext();
