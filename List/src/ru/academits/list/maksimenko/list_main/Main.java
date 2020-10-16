@@ -7,16 +7,49 @@ public class Main {
     public static void main(String[] args) {
         SinglyLinkedList<String> namesList = new SinglyLinkedList<>(new ListItem<>("Петр"));
 
-        System.out.println(namesList);
+        namesList.add("Андрей");
+        namesList.add("Степан");
+        namesList.add("Владимир");
+        namesList.add("Константин");
+        namesList.add("Сергей");
+        namesList.add("Василий");
+        namesList.add("Григорий");
 
-        ListItem<String> name2 = new ListItem<>("Андрей");
-        ListItem<String> name3 = new ListItem<>("Степан");
-        ListItem<String> name4 = new ListItem<>("Владимир");
-        ListItem<String> name5 = new ListItem<>("Константин");
-        ListItem<String> name6 = new ListItem<>("Сергей");
-        ListItem<String> name7 = new ListItem<>("Василий");
-        ListItem<String> name8 = new ListItem<>("Григорий");
+        System.out.println("Список: " + namesList);
 
         System.out.println("Размер списка: " + namesList.getSize());
+
+        System.out.println("Первое значение списка: " + namesList.getFirsData());
+
+        String name = namesList.getDataByIndex(7);
+
+        System.out.println("Полученное значение по индексу: " + name);
+
+        String oldValue = namesList.setDataByIndex(7, "Роман");
+        System.out.println("Старое значение по индексу: " + oldValue);
+
+        System.out.println("Список: " + namesList);
+
+        oldValue = namesList.deleteItemByIndex(2);
+        System.out.println("Удаленное значение по индексу: " + oldValue);
+
+        namesList.insertByBeginning("Виктор");
+        System.out.println("Список: " + namesList);
+
+        namesList.insertByIndex(7, "Глеб");
+        System.out.println("Список: " + namesList);
+
+
+        boolean hasTest = namesList.deleteItemByValue("Владимир");
+        System.out.println("Узел удален: " + hasTest);
+
+        oldValue = namesList.deleteFirstItem();
+        System.out.println("Удаленное значение: " + oldValue);
+
+        namesList.reverse();
+        System.out.println("Список: " + namesList);
+
+        SinglyLinkedList<String> copy = namesList.copy();
+        System.out.println("Копия списка: " + copy);
     }
 }

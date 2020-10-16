@@ -8,8 +8,17 @@ public class SinglyLinkedList<T> {
         this.head = head;
     }
 
+    public SinglyLinkedList() {
+    }
+
     public int getSize() {
         return count;
+    }
+
+    public void add(T data) {
+        ++count;
+
+        insertByIndex(count, data);
     }
 
     public T getFirsData() {
@@ -21,7 +30,7 @@ public class SinglyLinkedList<T> {
             throw new IndexOutOfBoundsException("The index has a negative value: " + index);
         }
 
-        if (index >= count) {
+        if (index > count) {
             throw new IndexOutOfBoundsException("Index greater than the length of the list: index " + index +
                     ", size " + count);
         }
@@ -80,44 +89,44 @@ public class SinglyLinkedList<T> {
 
         previous.setNext(current.getNext());
 
-        count--;
+        --count;
 
         return data;
     }
 
     public void insertByBeginning(T data) {
         head = new ListItem<>(data, head);
+
+        ++count;
     }
 
     public void insertByIndex(int index, T data) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("The index has a negative value: " + index);
-        }
-
-        if (index > count) {
-            throw new IndexOutOfBoundsException("Index greater than the length of the list: index " + index +
-                    ", size " + count);
-        }
+        checkIndex(index);
 
         if (index == 0) {
             insertByBeginning(data);
+
+            return;
         }
 
-        ListItem<T> newItem = new ListItem<T>(data);
+        ListItem<T> newItem = new ListItem<>(data);
         ListItem<T> previous = getItemByIndex(index - 1);
 
-        newItem.setNext(previous.getNext().getNext());
+        newItem.setNext(previous.getNext());
         previous.setNext(newItem);
     }
 
     public boolean deleteItemByValue(T data) {
-        for (ListItem<T> current = head; current != null; current = current.getNext()) {
+        for (ListItem<T> current = head, previous = null; current != null; previous = current, current = current.getNext()) {
             if (data.equals(current.getData())) {
+                assert previous != null;
+                previous.setNext(current.getNext());
+
+                count--;
+
                 return true;
             }
         }
-
-        count--;
 
         return false;
     }
@@ -150,7 +159,7 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList<T> copy() {
         SinglyLinkedList<T> copy = new SinglyLinkedList<>(new ListItem<>(head.getData()));
 
-        for (ListItem<T> current = head, currentCopy = copy.head; current != null; current = current.getNext(), currentCopy = currentCopy.getNext()) {
+        for (ListItem<T> current = head.getNext(), currentCopy = copy.head; current != null; current = current.getNext(), currentCopy = currentCopy.getNext()) {
             ListItem<T> copyItem = new ListItem<>(current.getData());
 
             currentCopy.setNext(copyItem);
