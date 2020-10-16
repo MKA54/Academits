@@ -6,7 +6,6 @@ public class SinglyLinkedList<T> {
 
     public SinglyLinkedList(ListItem<T> head) {
         this.head = head;
-        ++count;
     }
 
     public int getSize() {
@@ -17,7 +16,20 @@ public class SinglyLinkedList<T> {
         return head.getData();
     }
 
+    private void checkIndex(int index) {
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("The index has a negative value: " + index);
+        }
+
+        if (index >= count) {
+            throw new IndexOutOfBoundsException("Index greater than the length of the list: index " + index +
+                    ", size " + count);
+        }
+    }
+
     private ListItem<T> getItemByIndex(int index) {
+        checkIndex(index);
+
         ListItem<T> item = null;
         int i = 0;
 
@@ -78,6 +90,8 @@ public class SinglyLinkedList<T> {
     }
 
     public void insertByIndex(int index, T data) {
+        checkIndex(index);
+
         if (index == 0) {
             insertByBeginning(data);
         }

@@ -6,6 +6,7 @@ import ru.academits.list.maksimenko.list.SinglyLinkedList;
 public class Main {
     public static void main(String[] args) {
         SinglyLinkedList<String> namesList = new SinglyLinkedList<>(new ListItem<>("Петр"));
+
         System.out.println(namesList);
 
         ListItem<String> name2 = new ListItem<>("Андрей");
