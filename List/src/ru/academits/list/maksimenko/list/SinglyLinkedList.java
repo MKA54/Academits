@@ -8,9 +8,6 @@ public class SinglyLinkedList<T> {
         this.head = head;
     }
 
-    public SinglyLinkedList() {
-    }
-
     public int getSize() {
         return count;
     }
