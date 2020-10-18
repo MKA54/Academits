@@ -66,7 +66,7 @@ public class Matrix {
     }
 
     public Vector getLine(int index) {
-        checkIndex(index);
+        checkRowIndex(index);
 
         return vectorsMatrix[index];
     }
@@ -124,6 +124,10 @@ public class Matrix {
     }
 
     public double getDeterminant() {
+        if (vectorsMatrix.length != vectorsMatrix[0].getSize()) {
+            throw new IllegalArgumentException("");
+        }
+
         double result = 0;
 
         int length = vectorsMatrix[0].getSize();
@@ -249,7 +253,7 @@ public class Matrix {
         return stringBuilder.toString();
     }
 
-    private void checkIndex(int index) {
+    private void checkRowIndex(int index) {
         if (index < 0 || index >= vectorsMatrix.length) {
             throw new IndexOutOfBoundsException("limits of acceptable values from 0" + ", to " + vectorsMatrix.length
                     + " entered: " + index);
