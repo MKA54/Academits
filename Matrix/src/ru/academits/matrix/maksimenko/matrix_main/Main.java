@@ -28,18 +28,21 @@ public class Main {
         Matrix matrix4 = new Matrix(matrix3);
         System.out.println("Скопированная матрица: " + matrix4);
 
-        int length = matrix2.getSize();
-        System.out.println("Размерность матрицы: " + length);
+        int rowsCount = matrix2.getRowsCount();
+        System.out.println("Количество строк в матрице: " + rowsCount);
+
+        int columnsCount = matrix2.getColumnsCount();
+        System.out.println("Количество столбцов в матрице: " + columnsCount);
 
         Vector vector1 = new Vector(new double[]{11, 15, 13, 15, 16});
 
-        matrix1.setLinesVector(1, vector1);
+        matrix1.setLine(1, vector1);
         System.out.println("Матрица после записи в неё вектора по индексу: " + matrix1);
 
         Vector vector2 = matrix3.getColumnVector(1);
         System.out.println("Вектор-столбец полученный по индексу: " + vector2);
 
-        Vector vector3 = matrix3.getLinesVector(1);
+        Vector vector3 = matrix3.getLine(1);
         System.out.println("Вектор-строка полученная по индексу: " + vector3);
 
         Vector[] vectors2 = new Vector[]{new Vector(new double[]{1, 2, 3}), new Vector(new double[]{5, 66, 7}),
@@ -48,7 +51,7 @@ public class Main {
         Matrix matrix5 = new Matrix(vectors2);
         System.out.println("Матрица перед транспонированием: " + matrix5);
 
-        double matrixDeterminant = matrix5.getMatrixDeterminant();
+        double matrixDeterminant = matrix5.getDeterminant();
         System.out.println("Определитель матрицы: " + matrixDeterminant);
 
         matrix5.transpose();
@@ -68,7 +71,7 @@ public class Main {
 
         Vector vector4 = new Vector(new double[]{1, 2, -1});
 
-        Vector vector5 = matrix6.getMultiplyByVector(vector4);
+        Vector vector5 = matrix6.getProductOnVector(vector4);
         System.out.println("Результат умножения матрицы на вектор: " + vector5);
 
         matrix5.add(matrix6);
@@ -93,7 +96,7 @@ public class Main {
 
         Matrix matrix10 = new Matrix(vectors5);
 
-        Matrix matrix11 = Matrix.getMultiplicationProduct(matrix9, matrix10);
+        Matrix matrix11 = Matrix.getProduct(matrix9, matrix10);
         System.out.println("Результат умножения матриц: " + matrix11);
     }
 }
