@@ -72,14 +72,9 @@ public class Matrix {
     }
 
     public void setLine(int index, Vector vector) {
-        if (vector.getSize() < vectorsMatrix[index].getSize()) {
+        if (vector.getSize() != vectorsMatrix[index].getSize()) {
             throw new IllegalArgumentException("The size of the vector is smaller than the current one: " +
                     vector.getSize() + " < " + vectorsMatrix[index].getSize());
-        }
-
-        if (vector.getSize() > vectorsMatrix[index].getSize()) {
-            throw new IllegalArgumentException("The vector size is larger than the current one: " + vector.getSize() +
-                    " > " + vectorsMatrix[index].getSize());
         }
 
         vectorsMatrix[index] = vector;
