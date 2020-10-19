@@ -30,7 +30,7 @@ public class Main {
         System.out.printf("Периметр окружности: %.2f%n", circle.getPerimeter());
         System.out.println();
 
-        Shape[] shapesArray = new Shape[]{new Square(5),
+        Shape[] shapesArray = {new Square(5),
                 new Square(8),
                 new Rectangle(16, 4),
                 new Triangle(4, 15, 18, 2, 7, 9),
@@ -40,7 +40,8 @@ public class Main {
                 new Square(22),
                 new Rectangle(22, 8),
                 new Circle(22),
-                new Square(24)};
+                new Square(24)
+        };
 
         printShapeWithMaxArea(shapesArray);
 
