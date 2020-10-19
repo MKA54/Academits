@@ -19,8 +19,10 @@ public class Main {
         Matrix matrix2 = new Matrix(matrix);
         System.out.println("Матрица из двумерного массива: " + matrix2);
 
-        Vector[] vectors1 = new Vector[]{new Vector(new double[]{1, 22, 33, 44}), new Vector(new double[]{2, 15, 16, 17}),
-                new Vector(new double[]{33, 44, 18, 19}), new Vector(new double[]{5, 6, 7, 8})};
+        Vector[] vectors1 = {new Vector(new double[]{1, 22, 33, 44}),
+                new Vector(new double[]{2, 15, 16, 17}),
+                new Vector(new double[]{33, 44, 18, 19}),
+                new Vector(new double[]{5, 6, 7, 8})};
 
         Matrix matrix3 = new Matrix(vectors1);
         System.out.println("Матрица из массива вектров-строк: " + matrix3);
@@ -45,7 +47,8 @@ public class Main {
         Vector vector3 = matrix3.getLine(1);
         System.out.println("Вектор-строка полученная по индексу: " + vector3);
 
-        Vector[] vectors2 = new Vector[]{new Vector(new double[]{1, 2, 3}), new Vector(new double[]{5, 66, 7}),
+        Vector[] vectors2 = {new Vector(new double[]{1, 2, 3}),
+                new Vector(new double[]{5, 66, 7}),
                 new Vector(new double[]{9, 101, 11})};
 
         Matrix matrix5 = new Matrix(vectors2);
@@ -64,7 +67,8 @@ public class Main {
 
         System.out.println("Матрица после умножения на скаляр: " + matrix3);
 
-        Vector[] vectors3 = new Vector[]{new Vector(new double[]{2, 4, 0}), new Vector(new double[]{-2, 1, 3}),
+        Vector[] vectors3 = {new Vector(new double[]{2, 4, 0}),
+                new Vector(new double[]{-2, 1, 3}),
                 new Vector(new double[]{-1, 0, 1})};
 
         Matrix matrix6 = new Matrix(vectors3);
@@ -86,17 +90,30 @@ public class Main {
         Matrix matrix8 = Matrix.getDifference(matrix7, matrix5);
         System.out.println("Результат разности матриц: " + matrix8);
 
-        Vector[] vectors4 = new Vector[]{new Vector(new double[]{1, 2, 3}), new Vector(new double[]{4, 5, 6}),
+        Vector[] vectors4 = {new Vector(new double[]{1, 2, 3}),
+                new Vector(new double[]{4, 5, 6}),
                 new Vector(new double[]{7, 8, 9})};
 
         Matrix matrix9 = new Matrix(vectors4);
 
-        Vector[] vectors5 = new Vector[]{new Vector(new double[]{3, -4, 5}), new Vector(new double[]{1, -1, 1}),
+        Vector[] vectors5 = {new Vector(new double[]{3, -4, 5}),
+                new Vector(new double[]{1, -1, 1}),
                 new Vector(new double[]{2, -2, 3})};
 
         Matrix matrix10 = new Matrix(vectors5);
 
         Matrix matrix11 = Matrix.getProduct(matrix9, matrix10);
         System.out.println("Результат умножения матриц: " + matrix11);
+
+        Vector[] vectors = {new Vector(new double[]{2, 4, 1, 6}),
+                new Vector(new double[]{0, 2, 1, 15}),
+                new Vector(new double[]{2, 1, 14, 1}),
+                new Vector(new double[]{-4, 1, 16, 5})};
+
+        Matrix matrix12 = new Matrix(vectors);
+
+        double test = matrix12.getDeterminant();
+
+        System.out.println("Детерминант: " + test);
     }
 }
