@@ -7,7 +7,7 @@ public class Main {
         Vector vector1 = new Vector(1);
         System.out.println(vector1);
 
-        double[] coordinates1 = new double[]{2.0, 3.0, 4.0, 5.0, 6.0};
+        double[] coordinates1 = {2.0, 3.0, 4.0, 5.0, 6.0};
         Vector vector2 = new Vector(coordinates1);
         System.out.println(vector2);
 
@@ -40,10 +40,10 @@ public class Main {
         vector2.setCoordinateByIndex(3, coordinate);
         System.out.println(vector2);
 
-        double[] coordinates2 = new double[]{1, 2, 3, 4, 5};
+        double[] coordinates2 = {1, 2, 3, 4, 5};
         Vector vector5 = new Vector(coordinates2);
 
-        double[] coordinates3 = new double[]{1, 2, 3, 4, 5};
+        double[] coordinates3 = {1, 2, 3, 4, 5};
         Vector vector6 = new Vector(coordinates3);
 
         double scalarProductVectors = Vector.getScalarProduct(vector5, vector6);
