@@ -52,7 +52,7 @@ public class MyArrayList<T> implements List<T> {
     public Iterator<T> iterator() {
         return new Iterator<>() {
             int i = 0;
-            int modification = currentModification;
+            final int modification = currentModification;
 
             @Override
             public boolean hasNext() {
