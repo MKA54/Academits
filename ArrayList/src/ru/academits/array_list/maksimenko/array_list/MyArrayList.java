@@ -179,7 +179,7 @@ public class MyArrayList<T> implements List<T> {
             }
         }
 
-        return !(initialSize == count);
+        return initialSize != count;
     }
 
     @Override
@@ -194,7 +194,7 @@ public class MyArrayList<T> implements List<T> {
             }
         }
 
-        return !(initialSize == count);
+        return initialSize != count;
     }
 
     @Override
