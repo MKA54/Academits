@@ -290,7 +290,7 @@ public class Matrix {
 
     private void checkRowIndex(int index) {
         if (index < 0 || index >= vectorsMatrix.length) {
-            throw new IndexOutOfBoundsException("Limits of acceptable values from 0" + ", to " + vectorsMatrix.length
+            throw new IndexOutOfBoundsException("Limits of acceptable values from 0, to " + vectorsMatrix.length
                     + " entered: " + index);
         }
     }
