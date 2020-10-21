@@ -23,13 +23,9 @@ public class SinglyLinkedList<T> {
     }
 
     private void checkIndex(int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("The index has a negative value: " + index);
-        }
-
-        if (index > count) {
-            throw new IndexOutOfBoundsException("Index greater than the length of the list: index " + index +
-                    ", size " + count);
+        if (index < 0 || index > count) {
+            throw new IndexOutOfBoundsException("Limits of acceptable values from 0, to " + count
+                    + " entered: " + index);
         }
     }
 
