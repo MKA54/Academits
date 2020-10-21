@@ -6,6 +6,8 @@ public class SinglyLinkedList<T> {
 
     public SinglyLinkedList(ListItem<T> head) {
         this.head = head;
+
+        ++count;
     }
 
     public int getSize() {
@@ -13,9 +15,9 @@ public class SinglyLinkedList<T> {
     }
 
     public void add(T data) {
-        ++count;
-
         insertByIndex(count, data);
+
+        ++count;
     }
 
     public T getFirsData() {
@@ -23,7 +25,7 @@ public class SinglyLinkedList<T> {
     }
 
     private void checkIndex(int index) {
-        if (index < 0 || index > count) {
+        if (index < 0 || index >= count) {
             throw new IndexOutOfBoundsException("Limits of acceptable values from 0, to " + count
                     + " entered: " + index);
         }
@@ -94,7 +96,9 @@ public class SinglyLinkedList<T> {
     }
 
     public void insertByIndex(int index, T data) {
-        checkIndex(index);
+        if (count != index) {
+            checkIndex(index);
+        }
 
         if (index == 0) {
             insertByBeginning(data);
