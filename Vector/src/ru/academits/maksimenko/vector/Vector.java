@@ -19,7 +19,7 @@ public class Vector {
 
     public Vector(double[] coordinates) {
         if (coordinates.length == 0) {
-            throw new IndexOutOfBoundsException("invalid array length: " + coordinates.length);
+            throw new IllegalArgumentException("invalid array length: " + coordinates.length);
         }
 
         this.coordinates = Arrays.copyOf(coordinates, coordinates.length);
@@ -68,22 +68,19 @@ public class Vector {
     }
 
     public double getLength() {
-        int coordinatesSum = 0;
+        double sum = 0;
 
         for (double coordinate : coordinates) {
-            coordinatesSum += Math.pow(coordinate, 2);
+            sum += Math.pow(coordinate, 2);
         }
 
-        return Math.sqrt(coordinatesSum);
+        return Math.sqrt(sum);
     }
 
     private void checkIndex(int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("index " + index + " out of bounds for length " + coordinates.length);
-        }
-
-        if (index >= coordinates.length) {
-            throw new IndexOutOfBoundsException("index " + index + " out of bounds for length " + coordinates.length);
+        if (index < 0 || index >= coordinates.length) {
+            throw new IndexOutOfBoundsException("Limits of acceptable values from 0, to  " + coordinates.length
+                    + " entered: " + index);
         }
     }
 
