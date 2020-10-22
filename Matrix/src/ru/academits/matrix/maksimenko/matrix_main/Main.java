@@ -48,8 +48,8 @@ public class Main {
         Vector vector3 = matrix3.getLine(1);
         System.out.println("Вектор-строка полученная по индексу: " + vector3);
 
-        Vector[] vectors2 = {new Vector(new double[]{1, 2, 3}),
-                new Vector(new double[]{5, 66, 7}),
+        Vector[] vectors2 = {new Vector(new double[]{3, 2, -3}),
+                new Vector(new double[]{-2, 5, 1}),
                 new Vector(new double[]{9, 101, 11})
         };
 
@@ -110,10 +110,11 @@ public class Main {
         Matrix matrix11 = Matrix.getProduct(matrix9, matrix10);
         System.out.println("Результат умножения матриц: " + matrix11);
 
-        Vector[] vectors = {new Vector(new double[]{2, 4, 1, 6}),
-                new Vector(new double[]{0, 2, 1, 15}),
-                new Vector(new double[]{2, 1, 14, 1}),
-                new Vector(new double[]{-4, 1, 16, 5})
+        Vector[] vectors = {new Vector(new double[]{2, 4, 1, 6, 8}),
+                new Vector(new double[]{0, 2, 1, 15, 6}),
+                new Vector(new double[]{2, 1, 14, 1, -5}),
+                new Vector(new double[]{-4, 1, 16, 5, 3}),
+                new Vector(new double[]{5, 8, 14, 2, 13})
         };
 
         Matrix matrix12 = new Matrix(vectors);
