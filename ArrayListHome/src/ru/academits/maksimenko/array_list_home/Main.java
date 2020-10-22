@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<String> fileList = readFile();
+        ArrayList<String> fileList = getStringsListFromFile("Список.txt");
         System.out.println("Список из файла: " + fileList);
 
         ArrayList<Integer> numbersList = new ArrayList<>(Arrays.asList(9, 9, 1, 2, 2, 5, 3, 1, 4, 5, 9, 6, 7, 3, 8, 9));
@@ -19,20 +19,19 @@ public class Main {
 
         ArrayList<Integer> uniqueNumbersList = getUniqueNumbers(numbersList);
         System.out.println("Список уникальных значений: " + uniqueNumbersList);
-
     }
 
-    public static ArrayList<String> readFile() {
+    public static ArrayList<String> getStringsListFromFile(String filePath) {
         ArrayList<String> list = new ArrayList<>();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("Список.txt")))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(filePath)))) {
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
                 list.add(line);
             }
         } catch (IOException e) {
-            return list;
+            System.out.println("File not found");
         }
 
         return list;
@@ -49,12 +48,10 @@ public class Main {
     }
 
     public static ArrayList<Integer> getUniqueNumbers(ArrayList<Integer> numbersList) {
-        ArrayList<Integer> uniqueNumbersList = new ArrayList<>();
+        ArrayList<Integer> uniqueNumbersList = new ArrayList<>(numbersList.size());
 
-        for (int i = 0; i < numbersList.size(); i++) {
-            int value = numbersList.get(i);
-
-            if (i == numbersList.indexOf(value)) {
+        for (int value : numbersList) {
+            if (!uniqueNumbersList.contains(value)) {
                 uniqueNumbersList.add(value);
             }
         }
