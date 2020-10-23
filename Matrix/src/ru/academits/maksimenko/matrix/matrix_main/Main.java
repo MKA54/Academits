@@ -57,7 +57,7 @@ public class Main {
         System.out.println("Матрица перед транспонированием: " + matrix5);
 
         double matrixDeterminant = matrix5.getDeterminant();
-        System.out.println("Определитель матрицы: " + matrixDeterminant);
+
 
         matrix5.transpose();
 
@@ -110,17 +110,17 @@ public class Main {
         Matrix matrix11 = Matrix.getProduct(matrix9, matrix10);
         System.out.println("Результат умножения матриц: " + matrix11);
 
-        Vector[] vectors = {new Vector(new double[]{2, 4, 1, 6, 8}),
-                new Vector(new double[]{0, 2, 1, 15, 6}),
-                new Vector(new double[]{2, 1, 14, 1, -5}),
-                new Vector(new double[]{-4, 1, 16, 5, 3}),
-                new Vector(new double[]{5, 8, 14, 2, 13})
+        Vector[] vectors = {new Vector(new double[]{2, 4, 1, 6}),
+                new Vector(new double[]{0, 2, 1, 15}),
+                new Vector(new double[]{2, 1, 14, 1}),
+                new Vector(new double[]{-4, 1, 16, 5}),
         };
 
         Matrix matrix12 = new Matrix(vectors);
 
         double test = matrix12.getDeterminant();
 
+        System.out.println("Определитель матрицы: " + matrixDeterminant);
         System.out.println("Детерминант: " + test);
     }
 }

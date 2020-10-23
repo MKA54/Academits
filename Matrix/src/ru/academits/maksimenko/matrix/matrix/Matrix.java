@@ -132,65 +132,62 @@ public class Matrix {
 
         double result = 0;
 
-        int length = vectorsMatrix[0].getSize();
-        int i = 0;
-        int power = 1;
-
-        while (i < length - 1) {
-            double productMainDiagonal = 1;
-            double productSideDiagonal = 1;
-            double value = vectorsMatrix[0].getCoordinateByIndex(i);
-            double sum = 0;
+        for (int x = 0, j = 1; x < vectorsMatrix[0].getSize(); x++, j++) {
+            double value = vectorsMatrix[0].getCoordinateByIndex(x);
+            double minor = 0;
 
             if (value != 0) {
-                int j = 0;
-                int k = 1 + i;
-                int n = length - 1;
+                int h = 0;
 
-                int b = 0;
+                int r = x;
+                int t = vectorsMatrix[0].getSize() - 1;
 
-                while (j < length - 1) {
-                    if (k == length) {
-                        k = 0;
+                while (h < vectorsMatrix[0].getSize() - 1) {
+                    double mainLineProduct = 1;
+                    double sideLineProduct = 1;
 
-                    }
+                    for (int n = 0, k = 1, m = 1 + r, p = t; n < vectorsMatrix[0].getSize() - 1;
+                         n++, k++, m++, p--) {
 
-                    if (n == i) {
-                        --n;
-                    }
-
-                    for (int h = 1, s = k, d = n; h < length; h++, s++, d--) {
-                        if (d == i) {
-                            d--;
+                        if (m == x) {
+                            ++m;
                         }
 
-                        if (s == length) {
-                            s = 0;
+                        if (m >= vectorsMatrix[0].getSize()) {
+                            if (x == 0) {
+                                m = 1;
+                            } else {
+                                m = 0;
+                            }
                         }
 
-                        if (d < 0) {
-                            d = length - 1;
+                        if (p == x) {
+                            --p;
                         }
 
-                        productMainDiagonal *= vectorsMatrix[h].getCoordinateByIndex(s);
-                        productSideDiagonal *= vectorsMatrix[h].getCoordinateByIndex(d);
+                        if (p < 0) {
+                            if (x != 0) {
+                                p = 1;
+                            } else {
+                                p = 0;
+                            }
+                        }
+
+                        mainLineProduct *= vectorsMatrix[k].getCoordinateByIndex(m);
+                        sideLineProduct *= vectorsMatrix[k].getCoordinateByIndex(p);
                     }
 
-                    sum += productMainDiagonal - productSideDiagonal;
+                    minor += mainLineProduct - sideLineProduct;
 
-                    ++k;
-                    --n;
+                    ++r;
+                    --t;
 
-                    ++j;
+                    ++h;
                 }
             }
 
-            result += Math.pow(-1, 1 + power) * value * (sum);
-
-            power++;
-            i++;
+            result += Math.pow(-1, 1 + j) * value * minor;
         }
-
 
         return result;
     }
