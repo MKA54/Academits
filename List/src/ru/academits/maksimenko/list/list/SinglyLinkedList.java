@@ -1,8 +1,14 @@
 package ru.academits.maksimenko.list.list;
 
+import java.util.NoSuchElementException;
+import java.util.Objects;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
+
+    public SinglyLinkedList() {
+    }
 
     public SinglyLinkedList(ListItem<T> head) {
         this.head = head;
@@ -21,13 +27,20 @@ public class SinglyLinkedList<T> {
     }
 
     public T getFirsData() {
+        checkListSize();
+
         return head.getData();
     }
 
     private void checkIndex(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Limits of acceptable values from 0, to " + count
-                    + " entered: " + index);
+            throw new IndexOutOfBoundsException("Index must be from 0 to " + count + ". Index = " + index);
+        }
+    }
+
+    private void checkListSize() {
+        if (count == 0) {
+            throw new NoSuchElementException("The list is empty");
         }
     }
 
@@ -40,6 +53,8 @@ public class SinglyLinkedList<T> {
         for (ListItem<T> current = head; current != null; current = current.getNext()) {
             if (index == i) {
                 item = current;
+
+                break;
             }
 
             ++i;
@@ -49,9 +64,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T getDataByIndex(int index) {
-        ListItem<T> item = getItemByIndex(index);
-
-        return item.getData();
+        return getItemByIndex(index).getData();
     }
 
     public T setDataByIndex(int index, T data) {
@@ -65,22 +78,16 @@ public class SinglyLinkedList<T> {
     }
 
     public T deleteItemByIndex(int index) {
-        T data;
+        checkIndex(index);
 
         if (index == 0) {
-            data = head.getData();
-
-            deleteFirstItem();
-
-            count--;
-
-            return data;
+            return deleteFirstItem();
         }
 
         ListItem<T> previous = getItemByIndex(index - 1);
         ListItem<T> current = previous.getNext();
 
-        data = current.getData();
+        T data = current.getData();
 
         previous.setNext(current.getNext());
 
@@ -89,7 +96,7 @@ public class SinglyLinkedList<T> {
         return data;
     }
 
-    public void insertByBeginning(T data) {
+    public void addFirst(T data) {
         head = new ListItem<>(data, head);
 
         ++count;
@@ -101,7 +108,13 @@ public class SinglyLinkedList<T> {
         }
 
         if (index == 0) {
-            insertByBeginning(data);
+            if (head != null) {
+                addFirst(data);
+
+                return;
+            }
+
+            head = new ListItem<>(data);
 
             return;
         }
@@ -114,8 +127,18 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean deleteItemByValue(T data) {
+        if (count == 0) {
+            return false;
+        }
+
+        if (Objects.equals(head.getData(), data)) {
+            deleteFirstItem();
+
+            return true;
+        }
+
         for (ListItem<T> current = head, previous = null; current != null; previous = current, current = current.getNext()) {
-            if (data.equals(current.getData())) {
+            if (Objects.equals(data, current.getData())) {
                 assert previous != null;
                 previous.setNext(current.getNext());
 
@@ -129,6 +152,8 @@ public class SinglyLinkedList<T> {
     }
 
     public T deleteFirstItem() {
+        checkListSize();
+
         T data = head.getData();
 
         head = head.getNext();
@@ -154,12 +179,10 @@ public class SinglyLinkedList<T> {
     }
 
     public SinglyLinkedList<T> copy() {
-        SinglyLinkedList<T> copy = new SinglyLinkedList<>(new ListItem<>(head.getData()));
+        SinglyLinkedList<T> copy = new SinglyLinkedList<>();
 
-        for (ListItem<T> current = head.getNext(), currentCopy = copy.head; current != null; current = current.getNext(), currentCopy = currentCopy.getNext()) {
-            ListItem<T> copyItem = new ListItem<>(current.getData());
-
-            currentCopy.setNext(copyItem);
+        for (ListItem<T> current = head; current != null; current = current.getNext()) {
+            copy.add(current.getData());
         }
 
         return copy;
@@ -167,13 +190,21 @@ public class SinglyLinkedList<T> {
 
     @Override
     public String toString() {
+        if (count == 0) {
+            return "{}";
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("{ ");
 
         for (ListItem<T> current = head; current != null; current = current.getNext()) {
             stringBuilder.append(current.getData()).append(", ");
         }
 
         stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
+
+        stringBuilder.append(" }");
 
         return stringBuilder.toString();
     }

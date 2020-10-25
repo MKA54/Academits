@@ -11,7 +11,7 @@ public class Main {
         namesList.add("Степан");
         namesList.add("Владимир");
         namesList.add("Константин");
-        namesList.add("Сергей");
+        namesList.add(null);
         namesList.add("Василий");
         namesList.add("Григорий");
 
@@ -21,11 +21,11 @@ public class Main {
 
         System.out.println("Первое значение списка: " + namesList.getFirsData());
 
-        String name = namesList.getDataByIndex(7);
+        String name = namesList.getDataByIndex(6);
 
         System.out.println("Полученное значение по индексу: " + name);
 
-        String oldValue = namesList.setDataByIndex(7, "Роман");
+        String oldValue = namesList.setDataByIndex(6, "Роман");
         System.out.println("Старое значение по индексу: " + oldValue);
 
         System.out.println("Список: " + namesList);
@@ -33,7 +33,7 @@ public class Main {
         oldValue = namesList.deleteItemByIndex(2);
         System.out.println("Удаленное значение по индексу: " + oldValue);
 
-        namesList.insertByBeginning("Виктор");
+        namesList.addFirst("Виктор");
         System.out.println("Список: " + namesList);
 
         namesList.insertByIndex(7, "Глеб");
