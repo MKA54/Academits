@@ -79,8 +79,7 @@ public class Vector {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= coordinates.length) {
-            throw new IndexOutOfBoundsException("limits of acceptable values from 0, to  " + coordinates.length
-                    + " entered: " + index);
+            throw new IndexOutOfBoundsException("Index must be from 0 to " + coordinates.length + ". Index = " + index);
         }
     }
 
