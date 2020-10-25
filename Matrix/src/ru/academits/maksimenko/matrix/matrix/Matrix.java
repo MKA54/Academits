@@ -82,8 +82,7 @@ public class Matrix {
 
     public Vector getColumnVector(int index) {
         if (index >= vectorsMatrix[0].getSize() || index < 0) {
-            throw new IndexOutOfBoundsException("Limits of acceptable values from 0" + ", to " + vectorsMatrix[0].getSize()
-                    + " entered: " + index);
+            throw new IndexOutOfBoundsException("Index must be from 0 to " + vectorsMatrix[0].getSize() + ". Index = " + index);
         }
 
         Vector vector = new Vector(vectorsMatrix.length);
@@ -132,33 +131,40 @@ public class Matrix {
 
         double result = 0;
 
-        for (int x = 0, j = 1; x < vectorsMatrix[0].getSize(); x++, j++) {
+        int minorSize = vectorsMatrix[0].getSize() - 1;
+        int length = vectorsMatrix[0].getSize();
+
+        for (int x = 0, j = 1; x < length; x++, j++) {
             double value = vectorsMatrix[0].getCoordinateByIndex(x);
-            double minor = 0;
+            double complement = 0;
 
             if (value != 0) {
                 int h = 0;
 
-                int r = x;
-                int t = vectorsMatrix[0].getSize() - 1;
+                int r = x == 0 ? 1 : 0;
+                int t = x == minorSize ? minorSize - 1 : minorSize;
 
-                while (h < vectorsMatrix[0].getSize() - 1) {
+                while (h < minorSize) {
                     double mainLineProduct = 1;
                     double sideLineProduct = 1;
 
-                    for (int n = 0, k = 1, m = 1 + r, p = t; n < vectorsMatrix[0].getSize() - 1;
+                    if (r == x) {
+                        ++r;
+                    }
+
+                    if (t == x) {
+                        --t;
+                    }
+
+                    for (int n = 0, k = 1, m = r, p = t; n < minorSize;
                          n++, k++, m++, p--) {
 
                         if (m == x) {
                             ++m;
                         }
 
-                        if (m >= vectorsMatrix[0].getSize()) {
-                            if (x == 0) {
-                                m = 1;
-                            } else {
-                                m = 0;
-                            }
+                        if (m >= length) {
+                            m = x == 0 ? 1 : 0;
                         }
 
                         if (p == x) {
@@ -166,18 +172,14 @@ public class Matrix {
                         }
 
                         if (p < 0) {
-                            if (x != 0) {
-                                p = 1;
-                            } else {
-                                p = 0;
-                            }
+                            p = x == minorSize ? minorSize - 1 : minorSize;
                         }
 
                         mainLineProduct *= vectorsMatrix[k].getCoordinateByIndex(m);
                         sideLineProduct *= vectorsMatrix[k].getCoordinateByIndex(p);
                     }
 
-                    minor += mainLineProduct - sideLineProduct;
+                    complement += mainLineProduct - sideLineProduct;
 
                     ++r;
                     --t;
@@ -186,7 +188,7 @@ public class Matrix {
                 }
             }
 
-            result += Math.pow(-1, 1 + j) * value * minor;
+            result += Math.pow(-1, 1 + j) * value * complement;
         }
 
         return result;
