@@ -312,8 +312,7 @@ public class MyArrayList<T> implements List<T> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Limits of acceptable values from 0, to " + count
-                    + " entered: " + index);
+            throw new IndexOutOfBoundsException("Index must be from 0 to " + count + ". Index = " + index);
         }
     }
 }
