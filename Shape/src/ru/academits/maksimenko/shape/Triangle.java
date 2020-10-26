@@ -17,7 +17,7 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private static double getLengthSegment(double x1, double y1, double x2, double y2) {
+    private static double getSegmentLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
@@ -34,13 +34,13 @@ public class Triangle implements Shape {
     @Override
     public double getArea() {
         double triangleHalfPerimeter = getPerimeter() / 2;
-        return Math.sqrt(triangleHalfPerimeter * (triangleHalfPerimeter - getLengthSegment(x1, y1, x2, y2))
-                * (triangleHalfPerimeter - getLengthSegment(x2, y2, x3, y3)) * (triangleHalfPerimeter - getLengthSegment(x3, y3, x1, y1)));
+        return Math.sqrt(triangleHalfPerimeter * (triangleHalfPerimeter - getSegmentLength(x1, y1, x2, y2))
+                * (triangleHalfPerimeter - getSegmentLength(x2, y2, x3, y3)) * (triangleHalfPerimeter - getSegmentLength(x3, y3, x1, y1)));
     }
 
     @Override
     public double getPerimeter() {
-        return getLengthSegment(x1, y1, x2, y2) + getLengthSegment(x2, y2, x3, y3) + getLengthSegment(x3, y3, x1, y1);
+        return getSegmentLength(x1, y1, x2, y2) + getSegmentLength(x2, y2, x3, y3) + getSegmentLength(x3, y3, x1, y1);
     }
 
     @Override
