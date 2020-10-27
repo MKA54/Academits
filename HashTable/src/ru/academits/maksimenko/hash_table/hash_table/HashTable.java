@@ -130,25 +130,25 @@ public class HashTable<T> implements Collection<T> {
             a = (T1[]) Arrays.copyOf(a, count, a.getClass());
         }
 
-        int i = 0;
+        int index = 0;
 
         for (ArrayList<T> list : hashTable) {
             if (list != null) {
                 for (T element : list) {
                     //noinspection unchecked
-                    a[i] = (T1) element;
+                    a[index] = (T1) element;
 
-                    ++i;
+                    ++index;
                 }
             }
 
-            if (i == count) {
+            if (index == count) {
                 break;
             }
         }
 
-        if (i < a.length) {
-            a[i] = null;
+        if (count < a.length) {
+            a[count] = null;
         }
 
         return a;
