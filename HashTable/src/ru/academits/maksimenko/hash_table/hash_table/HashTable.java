@@ -68,11 +68,11 @@ public class HashTable<T> implements Collection<T> {
             @Override
             public T next() {
                 if (initialModification != currentModification) {
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificationException("The list was changed during the execution of the pass");
                 }
 
                 if (!hasNext()) {
-                    throw new NoSuchElementException();
+                    throw new NoSuchElementException("Going beyond the boundaries of the list, the element is not found");
                 }
 
                 for (; ; tableIndex++) {
