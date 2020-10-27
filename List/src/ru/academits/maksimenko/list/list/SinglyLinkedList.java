@@ -34,7 +34,11 @@ public class SinglyLinkedList<T> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Index must be from 0 to " + count + ". Index = " + index);
+            if (count == 0) {
+                throw new IndexOutOfBoundsException("The list is empty");
+            }
+
+            throw new IndexOutOfBoundsException("Index must be from 0 to " + (count - 1) + ". Index = " + index);
         }
     }
 
