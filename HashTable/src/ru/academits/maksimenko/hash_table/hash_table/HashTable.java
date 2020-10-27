@@ -54,7 +54,7 @@ public class HashTable<T> implements Collection<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<>() {
-            final int modification = currentModification;
+            final int initialModification = currentModification;
             private int tableIndex = 0;
             private int listIndex = 0;
             private int currentElementNumber = 0;
@@ -67,7 +67,7 @@ public class HashTable<T> implements Collection<T> {
 
             @Override
             public T next() {
-                if (modification != currentModification) {
+                if (initialModification != currentModification) {
                     throw new ConcurrentModificationException();
                 }
 
