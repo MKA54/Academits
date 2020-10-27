@@ -27,8 +27,8 @@ public class Main {
 
         System.out.println("Количество элементов в хэш-таблице: " + namesTable.size());
 
-        boolean hasTest = namesTable.contains("Герман");
-        System.out.println("Наличие элемента в хэш-таблице: " + hasTest);
+        boolean isContains = namesTable.contains("Герман");
+        System.out.println("Наличие элемента в хэш-таблице: " + isContains);
 
         Object[] objects = namesTable.toArray();
         System.out.println("Массив объектов: " + Arrays.toString(objects));
@@ -38,16 +38,16 @@ public class Main {
 
         List<String> studentsList = new ArrayList<>(Arrays.asList("Роман", "Виктор", "Генадий"));
 
-        hasTest = namesTable.containsAll(studentsList);
-        System.out.println("Наличие всех студентов в таблице: " + hasTest);
+        isContains = namesTable.containsAll(studentsList);
+        System.out.println("Наличие всех студентов в таблице: " + isContains);
 
-        hasTest = namesTable.removeAll(studentsList);
-        System.out.println("Проверка на удаление элементов в таблице: " + hasTest);
+        boolean isRemoved = namesTable.removeAll(studentsList);
+        System.out.println("Проверка на удаление элементов в таблице: " + isRemoved);
 
         List<String> nonInternsList = new ArrayList<>(Arrays.asList("Глеб", "Павел", "Сергей"));
 
-        hasTest = namesTable.retainAll(nonInternsList);
-        System.out.println("Проверка на удаление элементов в таблице: " + hasTest);
+        isRemoved = namesTable.retainAll(nonInternsList);
+        System.out.println("Проверка на удаление элементов в таблице: " + isRemoved);
 
         namesTable.clear();
         System.out.println(namesTable);
