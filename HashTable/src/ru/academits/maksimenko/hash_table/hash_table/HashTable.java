@@ -55,8 +55,8 @@ public class HashTable<T> implements Collection<T> {
     public Iterator<T> iterator() {
         return new Iterator<>() {
             final int modification = currentModification;
-            int i = 0;
-            int j = 0;
+            int tableIndex = 0;
+            int listIndex = 0;
             int currentElementNumber = 0;
             ArrayList<T> list;
 
@@ -75,20 +75,20 @@ public class HashTable<T> implements Collection<T> {
                     throw new NoSuchElementException();
                 }
 
-                for (; ; i++) {
-                    if (hashTable[i] != null) {
+                for (; ; tableIndex++) {
+                    if (hashTable[tableIndex] != null) {
                         if (list == null) {
-                            list = hashTable[i];
+                            list = hashTable[tableIndex];
                         }
 
-                        T value = list.get(j);
+                        T value = list.get(listIndex);
 
-                        ++j;
+                        ++listIndex;
                         ++currentElementNumber;
 
-                        if (j == list.size()) {
-                            j = 0;
-                            ++i;
+                        if (listIndex == list.size()) {
+                            listIndex = 0;
+                            ++tableIndex;
 
                             list = null;
                         }
