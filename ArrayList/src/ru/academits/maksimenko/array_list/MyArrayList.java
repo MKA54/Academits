@@ -13,8 +13,8 @@ public class MyArrayList<T> implements List<T> {
     }
 
     public MyArrayList(int initialCapacity) {
-        if (initialCapacity <= 0) {
-            throw new IllegalArgumentException("Invalid argument entered: " + initialCapacity);
+        if (initialCapacity < 0) {
+            throw new IllegalArgumentException("The list capacity must not be negative. Capacity: " + initialCapacity);
         }
 
         //noinspection unchecked
@@ -27,9 +27,9 @@ public class MyArrayList<T> implements List<T> {
         count = collection.size();
     }
 
-    private void ensureCapacity(int size) {
-        if (size + count >= items.length) {
-            items = Arrays.copyOf(items, (size + count) * 2);
+    public void ensureCapacity(int size) {
+        if (size >= items.length) {
+            items = Arrays.copyOf(items, size);
         }
     }
 
@@ -51,27 +51,27 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<>() {
-            int i = 0;
-            final int modification = currentModification;
+            private int index = 0;
+            final int initialModification = currentModification;
 
             @Override
             public boolean hasNext() {
-                return i < count;
+                return index < count;
             }
 
             @Override
             public T next() {
-                if (modification != currentModification) {
-                    throw new ConcurrentModificationException();
+                if (initialModification != currentModification) {
+                    throw new ConcurrentModificationException("The list was changed during the execution of the pass");
                 }
 
                 if (!hasNext()) {
-                    throw new NoSuchElementException();
+                    throw new NoSuchElementException("Going beyond the boundaries of the list, the element is not found");
                 }
 
-                T value = items[i];
+                T value = items[index];
 
-                ++i;
+                ++index;
 
                 return value;
             }
@@ -85,30 +85,23 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public <T1> T1[] toArray(T1[] a) {
-        if (a.length < items.length) {
+        if (a.length < count) {
             //noinspection unchecked
             return (T1[]) Arrays.copyOf(items, count, a.getClass());
         }
 
-        int i = 0;
+        System.arraycopy(items, 0, a, 0, count);
 
-        for (Object element : items) {
-            //noinspection unchecked
-            a[i] = (T1) element;
-
-            ++i;
-        }
-
-        if (i < a.length) {
-            a[i] = null;
+        if (items.length < a.length) {
+            a[items.length] = null;
         }
 
         return a;
     }
 
     @Override
-    public boolean add(T element) {
-        add(count, element);
+    public boolean add(T item) {
+        add(count, item);
 
         return true;
     }
@@ -128,8 +121,8 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object element : c) {
-            if (!contains(element)) {
+        for (Object item : c) {
+            if (!contains(item)) {
                 return false;
             }
         }
@@ -139,9 +132,7 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        addAll(count, c);
-
-        return true;
+        return addAll(count, c);
     }
 
     @Override
@@ -150,14 +141,20 @@ public class MyArrayList<T> implements List<T> {
             checkIndex(index);
         }
 
-        ensureCapacity(c.size());
+        if (c.size() == 0) {
+            return false;
+        }
+
+        ensureCapacity(c.size() + count);
 
         System.arraycopy(items, index, items, index + c.size(), count - index);
 
-        for (T element : c) {
-            items[index] = element;
+        int i = index;
 
-            ++index;
+        for (T item : c) {
+            items[i] = item;
+
+            ++i;
         }
 
         ++currentModification;
@@ -169,6 +166,10 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        if (c.size() == 0) {
+            return false;
+        }
+
         int initialSize = count;
 
         for (int i = 0; i < count; i++) {
@@ -230,6 +231,10 @@ public class MyArrayList<T> implements List<T> {
             checkIndex(index);
         }
 
+        if (count == 0) {
+            ensureCapacity(count + 1);
+        }
+
         System.arraycopy(items, index, items, index + 1, count - index);
 
         items[index] = element;
@@ -242,14 +247,18 @@ public class MyArrayList<T> implements List<T> {
     public T remove(int index) {
         checkIndex(index);
 
-        T element = items[index];
+        T item = items[index];
 
         System.arraycopy(items, index + 1, items, index, count - index - 1);
 
-        ++currentModification;
         --count;
 
-        return element;
+        items[count] = null;
+
+        ++currentModification;
+
+
+        return item;
     }
 
     @Override
@@ -312,7 +321,11 @@ public class MyArrayList<T> implements List<T> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Index must be from 0 to " + count + ". Index = " + index);
+            if (count == 0) {
+                throw new IndexOutOfBoundsException("The list is empty");
+            }
+
+            throw new IndexOutOfBoundsException("Index must be from 0 to " + (count - 1) + ". Index = " + index);
         }
     }
 }

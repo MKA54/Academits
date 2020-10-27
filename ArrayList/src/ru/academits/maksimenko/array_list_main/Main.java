@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        MyArrayList<String> names = new MyArrayList<>();
+        MyArrayList<String> names = new MyArrayList<>(12);
         System.out.println("Пустой список: " + names);
 
         List<String> namesList = new ArrayList<>(Arrays.asList("Роман", "Сергей", null));
@@ -31,20 +31,20 @@ public class Main {
         names.add(4, "Станислав");
         System.out.println("Список имен: " + names);
 
-        boolean hasTest = names.isEmpty();
-        System.out.println("Проверка на пустоту списка: " + hasTest);
+        boolean isEmpty = names.isEmpty();
+        System.out.println("Проверка на пустоту списка: " + isEmpty);
 
-        hasTest = names.contains("Василий");
-        System.out.println("Проверка на наличие элемента в списке: " + hasTest);
+        boolean isContains = names.contains("Василий");
+        System.out.println("Проверка на наличие элемента в списке: " + isContains);
 
         Object[] objects = names.toArray();
-        System.out.println("Список объектов: " + Arrays.toString(objects));
+        System.out.println("Массив объектов: " + Arrays.toString(objects));
 
         String[] namesArray = names.toArray(new String[0]);
-        System.out.println("Список из массива строк: " + Arrays.toString(namesArray));
+        System.out.println("Массив строк: " + Arrays.toString(namesArray));
 
-        hasTest = names.remove("Петр");
-        System.out.println("Проверка на удаление объекта: " + hasTest);
+        boolean isRemoved = names.remove("Петр");
+        System.out.println("Проверка на удаление объекта: " + isRemoved);
 
         String name = names.get(4);
         System.out.println("Имя по индексу: " + name);
@@ -52,8 +52,8 @@ public class Main {
         int index = names.indexOf("Владимир");
         System.out.println("Индекс первого вхождения имени в списке: " + index);
 
-        hasTest = names.containsAll(namesList);
-        System.out.println("Проверка на наличие всех элементов коллекции в списке: " + hasTest);
+        isContains = names.containsAll(namesList);
+        System.out.println("Проверка на наличие всех элементов коллекции в списке: " + isContains);
 
         names.addAll(namesList);
         System.out.println("Список: " + names);
@@ -61,10 +61,10 @@ public class Main {
         names.addAll(0, namesList);
         System.out.println("Список: " + names);
 
-        hasTest = names.removeAll(namesList);
-        System.out.println("Наличие изменений в списке после удаления: " + hasTest);
+        isRemoved = names.removeAll(namesList);
+        System.out.println("Наличие изменений в списке после удаления: " + isRemoved);
 
-        hasTest = names.retainAll(namesList);
-        System.out.println("Наличие изменений в списке после удаления: " + hasTest);
+        isRemoved = names.retainAll(namesList);
+        System.out.println("Наличие изменений в списке после удаления: " + isRemoved);
     }
 }
