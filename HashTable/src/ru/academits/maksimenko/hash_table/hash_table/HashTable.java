@@ -223,6 +223,10 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        if (c.size() == 0) {
+            return false;
+        }
+
         int initialSize = count;
 
         int i = 0;
