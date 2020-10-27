@@ -55,10 +55,10 @@ public class HashTable<T> implements Collection<T> {
     public Iterator<T> iterator() {
         return new Iterator<>() {
             final int modification = currentModification;
-            int tableIndex = 0;
-            int listIndex = 0;
-            int currentElementNumber = 0;
-            ArrayList<T> list;
+            private int tableIndex = 0;
+            private int listIndex = 0;
+            private int currentElementNumber = 0;
+            private ArrayList<T> list;
 
             @Override
             public boolean hasNext() {
