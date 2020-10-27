@@ -39,8 +39,8 @@ public class Main {
         namesList.insertByIndex(7, "Глеб");
         System.out.println("Список: " + namesList);
 
-        boolean hasTest = namesList.deleteItemByValue("Владимир");
-        System.out.println("Узел удален: " + hasTest);
+        boolean isDeleted = namesList.deleteItemByValue("Владимир");
+        System.out.println("Узел удален: " + isDeleted);
 
         oldValue = namesList.deleteFirstItem();
         System.out.println("Удаленное значение: " + oldValue);
