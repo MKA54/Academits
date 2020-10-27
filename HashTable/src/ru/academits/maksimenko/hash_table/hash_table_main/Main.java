@@ -31,7 +31,7 @@ public class Main {
         System.out.println("Наличие элемента в хэш-таблице: " + hasTest);
 
         Object[] objects = namesTable.toArray();
-        System.out.println("Список объектов: " + Arrays.toString(objects));
+        System.out.println("Массив объектов: " + Arrays.toString(objects));
 
         String[] namesArray = namesTable.toArray(new String[0]);
         System.out.println("Массив имён: " + Arrays.toString(namesArray));
