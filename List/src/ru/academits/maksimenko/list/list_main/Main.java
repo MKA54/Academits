@@ -50,7 +50,5 @@ public class Main {
 
         SinglyLinkedList<String> copy = namesList.copy();
         System.out.println("Копия списка: " + copy);
-
-        SinglyLinkedList<Integer> i = new SinglyLinkedList<>();
     }
 }
