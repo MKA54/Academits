@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
     private T[] items;
-    private int count;
+    private int size;
     private int currentModification;
 
     public MyArrayList() {
@@ -24,7 +24,7 @@ public class MyArrayList<T> implements List<T> {
     public MyArrayList(Collection<? extends T> collection) {
         //noinspection unchecked
         items = (T[]) collection.toArray();
-        count = collection.size();
+        size = collection.size();
     }
 
     public void ensureCapacity(int size) {
@@ -35,12 +35,12 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public int size() {
-        return count;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return count == 0;
+        return size == 0;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class MyArrayList<T> implements List<T> {
 
             @Override
             public boolean hasNext() {
-                return index < count;
+                return index < size;
             }
 
             @Override
@@ -80,17 +80,17 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        return Arrays.copyOf(items, count);
+        return Arrays.copyOf(items, size);
     }
 
     @Override
     public <T1> T1[] toArray(T1[] a) {
-        if (a.length < count) {
+        if (a.length < size) {
             //noinspection unchecked
-            return (T1[]) Arrays.copyOf(items, count, a.getClass());
+            return (T1[]) Arrays.copyOf(items, size, a.getClass());
         }
 
-        System.arraycopy(items, 0, a, 0, count);
+        System.arraycopy(items, 0, a, 0, size);
 
         if (items.length < a.length) {
             a[items.length] = null;
@@ -101,7 +101,7 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean add(T item) {
-        add(count, item);
+        add(size, item);
 
         return true;
     }
@@ -132,12 +132,12 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        return addAll(count, c);
+        return addAll(size, c);
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-        if (index != count) {
+        if (index != size) {
             checkIndex(index);
         }
 
@@ -145,9 +145,9 @@ public class MyArrayList<T> implements List<T> {
             return false;
         }
 
-        ensureCapacity(c.size() + count);
+        ensureCapacity(c.size() + size);
 
-        System.arraycopy(items, index, items, index + c.size(), count - index);
+        System.arraycopy(items, index, items, index + c.size(), size - index);
 
         int i = index;
 
@@ -159,7 +159,7 @@ public class MyArrayList<T> implements List<T> {
 
         ++currentModification;
 
-        count += c.size();
+        size += c.size();
 
         return true;
     }
@@ -170,9 +170,9 @@ public class MyArrayList<T> implements List<T> {
             return false;
         }
 
-        int initialSize = count;
+        int initialSize = size;
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < size; i++) {
             if (c.contains(items[i])) {
                 remove(i);
 
@@ -180,14 +180,14 @@ public class MyArrayList<T> implements List<T> {
             }
         }
 
-        return initialSize != count;
+        return initialSize != size;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        int initialSize = count;
+        int initialSize = size;
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < size; i++) {
             if (!c.contains(items[i])) {
                 remove(i);
 
@@ -195,18 +195,18 @@ public class MyArrayList<T> implements List<T> {
             }
         }
 
-        return initialSize != count;
+        return initialSize != size;
     }
 
     @Override
     public void clear() {
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < size; i++) {
             items[i] = null;
         }
 
         ++currentModification;
 
-        count = 0;
+        size = 0;
     }
 
     @Override
@@ -227,20 +227,20 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
-        if (index != count) {
+        if (index != size) {
             checkIndex(index);
         }
 
-        if (count == 0) {
-            ensureCapacity(count + 1);
+        if (size == 0) {
+            ensureCapacity(size + 1);
         }
 
-        System.arraycopy(items, index, items, index + 1, count - index);
+        System.arraycopy(items, index, items, index + 1, size - index);
 
         items[index] = element;
 
         ++currentModification;
-        ++count;
+        ++size;
     }
 
     @Override
@@ -249,11 +249,11 @@ public class MyArrayList<T> implements List<T> {
 
         T item = items[index];
 
-        System.arraycopy(items, index + 1, items, index, count - index - 1);
+        System.arraycopy(items, index + 1, items, index, size - index - 1);
 
-        --count;
+        --size;
 
-        items[count] = null;
+        items[size] = null;
 
         ++currentModification;
 
@@ -263,7 +263,7 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < size; i++) {
             if (Objects.equals(items[i], o)) {
                 return i;
             }
@@ -274,7 +274,7 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = count - 1; i >= 0; i--) {
+        for (int i = size - 1; i >= 0; i--) {
             if (Objects.equals(items[i], o)) {
                 return i;
             }
@@ -300,7 +300,7 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public String toString() {
-        if (count == 0) {
+        if (size == 0) {
             return "[]";
         }
 
@@ -308,7 +308,7 @@ public class MyArrayList<T> implements List<T> {
 
         stringBuilder.append("[");
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < size; i++) {
             stringBuilder.append(items[i]).append(", ");
         }
 
@@ -320,12 +320,12 @@ public class MyArrayList<T> implements List<T> {
     }
 
     private void checkIndex(int index) {
-        if (index < 0 || index >= count) {
-            if (count == 0) {
+        if (index < 0 || index >= size) {
+            if (size == 0) {
                 throw new IndexOutOfBoundsException("The list is empty");
             }
 
-            throw new IndexOutOfBoundsException("Index must be from 0 to " + (count - 1) + ". Index = " + index);
+            throw new IndexOutOfBoundsException("Index must be from 0 to " + (size - 1) + ". Index = " + index);
         }
     }
 }
