@@ -8,28 +8,37 @@ public class Main {
              PrintWriter printWriter = new PrintWriter(args[1])) {
             String line;
 
-            printWriter.print("<table>");
+            printWriter.print("<!doctype html>");
+            printWriter.print("<html>");
+            printWriter.print("<head><meta charset=\"utf-8\"><title>Таблица</title></head>");
+            printWriter.print("<body>");
+            printWriter.print("<table width=\"600\" align=\"center\">");
 
-            int m = 0;
+            char split = ',';
+            char quote = '"';
+            char less = '<';
+            char more = '>';
+            char amp = '&';
+
+            int lineNumber = 1;
+            int quotationCount = 0;
+
+            StringBuilder csv = new StringBuilder();
 
             while ((line = bufferedReader.readLine()) != null) {
-                StringBuilder csv = new StringBuilder();
-
-                printWriter.print("<tr>");
-
-                char split = ',';
-                char quote = '"';
-                char less = '<';
-                char more = '>';
-                char amp = '&';
-
                 int lineLength = line.length();
 
-                for (int i = m, j = 1; i < lineLength; i++, j++) {
-                    if ( i == 0){
-                        csv.append("<td>");
-                    }
+                if (lineLength == 0) {
+                    continue;
+                }
 
+                if (quotationCount % 2 == 0) {
+                    printWriter.print("<tr>");
+                }
+
+                String orientation = lineNumber == 1 ? "center" : "left";
+
+                for (int i = 0, j = 1; i < lineLength; i++, j++) {
                     char current = line.charAt(i);
                     char next = 0;
 
@@ -37,36 +46,31 @@ public class Main {
                         next = line.charAt(j);
                     }
 
-                    if (current == quote && next == split) {
-                        current = next;
+                    if (current == quote && next != quote) {
+                        ++quotationCount;
 
-                        i += 2;
-                        j += 2;
-                    }
-
-                    if (current == quote && next == quote) {
                         continue;
                     }
 
-
-                    if (current == less && next != quote) {
+                    if (current == less) {
                         csv.append("&lt;");
                         continue;
                     }
 
-                    if (current == more && next != quote) {
+                    if (current == more) {
                         csv.append("&gt;");
                         continue;
                     }
 
-                    if (current == amp && next != quote) {
+                    if (current == amp) {
                         csv.append("&amp;");
                         continue;
                     }
 
-                    if (current == split && next != quote) {
-                        csv.append("</td>");
-                        m = i;
+                    if (current == split) {
+                        printWriter.print("<td align=\"" + orientation + "\">" + csv + "</td>");
+
+                        csv.delete(0, csv.length());
 
                         continue;
                     }
@@ -74,15 +78,21 @@ public class Main {
                     csv.append(current);
                 }
 
-                if (m == lineLength) {
-                    printWriter.printf("%s </tr><br/>", csv);
+                if (quotationCount % 2 == 0) {
+                    printWriter.print("<td align=\"" + orientation + "\">" + csv + " </td></tr>");
 
-                    m = 0;
+                    quotationCount = 0;
+                    csv.delete(0, csv.length());
+
+                    lineNumber++;
+
+                    continue;
                 }
 
+                csv.append("<br/>");
             }
 
-            printWriter.print("</table>");
+            printWriter.print("</table></body></html>");
         } catch (IOException e) {
             System.out.println("Файл не найден");
         }
