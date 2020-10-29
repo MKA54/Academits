@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
-    private int count;
+    private int size;
 
     public SinglyLinkedList() {
     }
@@ -13,17 +13,17 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList(ListItem<T> head) {
         this.head = head;
 
-        ++count;
+        ++size;
     }
 
     public int getSize() {
-        return count;
+        return size;
     }
 
     public void add(T data) {
-        insertByIndex(count, data);
+        insertByIndex(size, data);
 
-        ++count;
+        ++size;
     }
 
     public T getFirsData() {
@@ -33,17 +33,17 @@ public class SinglyLinkedList<T> {
     }
 
     private void checkIndex(int index) {
-        if (index < 0 || index >= count) {
-            if (count == 0) {
+        if (index < 0 || index >= size) {
+            if (size == 0) {
                 throw new IndexOutOfBoundsException("The list is empty");
             }
 
-            throw new IndexOutOfBoundsException("Index must be from 0 to " + (count - 1) + ". Index = " + index);
+            throw new IndexOutOfBoundsException("Index must be from 0 to " + (size - 1) + ". Index = " + index);
         }
     }
 
     private void checkListSize() {
-        if (count == 0) {
+        if (size == 0) {
             throw new NoSuchElementException("The list is empty");
         }
     }
@@ -95,7 +95,7 @@ public class SinglyLinkedList<T> {
 
         previous.setNext(current.getNext());
 
-        --count;
+        --size;
 
         return data;
     }
@@ -103,11 +103,11 @@ public class SinglyLinkedList<T> {
     public void addFirst(T data) {
         head = new ListItem<>(data, head);
 
-        ++count;
+        ++size;
     }
 
     public void insertByIndex(int index, T data) {
-        if (count != index) {
+        if (size != index) {
             checkIndex(index);
         }
 
@@ -131,7 +131,7 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean deleteItemByValue(T data) {
-        if (count == 0) {
+        if (size == 0) {
             return false;
         }
 
@@ -146,7 +146,7 @@ public class SinglyLinkedList<T> {
                 assert previous != null;
                 previous.setNext(current.getNext());
 
-                count--;
+                size--;
 
                 return true;
             }
@@ -162,7 +162,7 @@ public class SinglyLinkedList<T> {
 
         head = head.getNext();
 
-        count--;
+        size--;
 
         return data;
     }
@@ -194,7 +194,7 @@ public class SinglyLinkedList<T> {
 
     @Override
     public String toString() {
-        if (count == 0) {
+        if (size == 0) {
             return "{}";
         }
 
