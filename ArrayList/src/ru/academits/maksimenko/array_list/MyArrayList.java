@@ -170,7 +170,7 @@ public class MyArrayList<T> implements List<T> {
             return false;
         }
 
-        int initialSize = size;
+        final int initialSize = size;
 
         for (int i = 0; i < size; i++) {
             if (c.contains(items[i])) {
@@ -185,7 +185,7 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        int initialSize = size;
+        final int initialSize = size;
 
         for (int i = 0; i < size; i++) {
             if (!c.contains(items[i])) {
