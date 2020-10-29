@@ -41,6 +41,8 @@ public class Main {
         isContains = namesTable.containsAll(studentsList);
         System.out.println("Наличие всех студентов в таблице: " + isContains);
 
+        System.out.println(namesTable);
+
         boolean isRemoved = namesTable.removeAll(studentsList);
         System.out.println("Проверка на удаление элементов в таблице: " + isRemoved);
 
