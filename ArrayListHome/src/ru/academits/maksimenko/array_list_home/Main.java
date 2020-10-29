@@ -50,7 +50,7 @@ public class Main {
     public static ArrayList<Integer> getUniqueNumbers(ArrayList<Integer> numbersList) {
         ArrayList<Integer> uniqueNumbersList = new ArrayList<>(numbersList.size());
 
-        for (int value : numbersList) {
+        for (Integer value : numbersList) {
             if (!uniqueNumbersList.contains(value)) {
                 uniqueNumbersList.add(value);
             }
