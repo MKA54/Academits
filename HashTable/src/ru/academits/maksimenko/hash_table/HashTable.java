@@ -228,9 +228,7 @@ public class HashTable<T> implements Collection<T> {
 
             int listLength = listsArray[i].size();
 
-            if (listsArray[i].removeAll(c)) {
-                ++currentModification;
-            }
+            listsArray[i].removeAll(c);
 
             if (listLength != listsArray[i].size()) {
                 newSize += listsArray[i].size();
@@ -243,6 +241,8 @@ public class HashTable<T> implements Collection<T> {
 
         if (size != newSize) {
             size = newSize;
+
+            ++currentModification;
         }
 
         return initialSize != size;
@@ -260,9 +260,7 @@ public class HashTable<T> implements Collection<T> {
 
             int listLength = listsArray[i].size();
 
-            if (listsArray[i].retainAll(c)) {
-                ++currentModification;
-            }
+            listsArray[i].retainAll(c);
 
             if (listLength != listsArray[i].size()) {
                 newSize += listsArray[i].size();
@@ -275,6 +273,8 @@ public class HashTable<T> implements Collection<T> {
 
         if (size != newSize) {
             size = newSize;
+
+            ++currentModification;
         }
 
         return initialSize != size;
