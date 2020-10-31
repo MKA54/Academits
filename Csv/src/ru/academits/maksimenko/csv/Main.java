@@ -6,13 +6,11 @@ public class Main {
     public static void main(String[] args) {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]));
              PrintWriter printWriter = new PrintWriter(args[1])) {
-            String line;
-
             printWriter.print("<!doctype html>");
             printWriter.print("<html>");
             printWriter.print("<head><meta charset=\"utf-8\"><title>Таблица</title></head>");
             printWriter.print("<body>");
-            printWriter.print("<table width=\"600\" align=\"center\">");
+            printWriter.print("<table border=\"2\" width=\"600\" align=\"center\">");
 
             char split = ',';
             char quote = '"';
@@ -20,15 +18,17 @@ public class Main {
             char more = '>';
             char amp = '&';
 
-            int lineNumber = 1;
             int quotationCount = 0;
 
             StringBuilder csv = new StringBuilder();
+            String line;
 
             while ((line = bufferedReader.readLine()) != null) {
                 int lineLength = line.length();
 
                 if (lineLength == 0) {
+                    csv.append("<p></p>");
+
                     continue;
                 }
 
@@ -36,18 +36,15 @@ public class Main {
                     printWriter.print("<tr>");
                 }
 
-                String orientation = lineNumber == 1 ? "center" : "left";
-
-                for (int i = 0, j = 1; i < lineLength; i++, j++) {
+                for (int i = 0; i < lineLength; i++) {
                     char current = line.charAt(i);
-                    char next = 0;
 
-                    if (j != lineLength) {
-                        next = line.charAt(j);
-                    }
-
-                    if (current == quote && next != quote) {
+                    if (current == quote) {
                         ++quotationCount;
+
+                        if (quotationCount % 3 == 0) {
+                            csv.append(quote);
+                        }
 
                         continue;
                     }
@@ -67,10 +64,12 @@ public class Main {
                         continue;
                     }
 
-                    if (current == split) {
-                        printWriter.print("<td align=\"" + orientation + "\">" + csv + "</td>");
+                    if (current == split && quotationCount % 2 == 0) {
+                        printWriter.print("<td>" + csv + "</td>");
 
                         csv.delete(0, csv.length());
+
+                        quotationCount = 0;
 
                         continue;
                     }
@@ -79,12 +78,10 @@ public class Main {
                 }
 
                 if (quotationCount % 2 == 0) {
-                    printWriter.print("<td align=\"" + orientation + "\">" + csv + " </td></tr>");
+                    printWriter.print("<td>" + csv + " </td></tr>");
 
                     quotationCount = 0;
                     csv.delete(0, csv.length());
-
-                    lineNumber++;
 
                     continue;
                 }
