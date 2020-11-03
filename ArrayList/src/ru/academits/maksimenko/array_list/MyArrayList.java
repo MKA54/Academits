@@ -321,10 +321,6 @@ public class MyArrayList<T> implements List<T> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            if (size == 0) {
-                throw new IndexOutOfBoundsException("The list is empty");
-            }
-
             throw new IndexOutOfBoundsException("Index must be from 0 to " + (size - 1) + ". Index = " + index);
         }
     }
