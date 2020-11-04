@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        MyArrayList<String> names = new MyArrayList<>(12);
+        MyArrayList<String> names = new MyArrayList<>();
         System.out.println("Пустой список: " + names);
 
         List<String> namesList = new ArrayList<>(Arrays.asList("Роман", "Сергей", null));
@@ -34,8 +34,8 @@ public class Main {
         boolean isEmpty = names.isEmpty();
         System.out.println("Проверка на пустоту списка: " + isEmpty);
 
-        boolean isContains = names.contains("Василий");
-        System.out.println("Проверка на наличие элемента в списке: " + isContains);
+        boolean contains = names.contains("Василий");
+        System.out.println("Проверка на наличие элемента в списке: " + contains);
 
         Object[] objects = names.toArray();
         System.out.println("Массив объектов: " + Arrays.toString(objects));
@@ -52,8 +52,8 @@ public class Main {
         int index = names.indexOf("Владимир");
         System.out.println("Индекс первого вхождения имени в списке: " + index);
 
-        isContains = names.containsAll(namesList);
-        System.out.println("Проверка на наличие всех элементов коллекции в списке: " + isContains);
+        contains = names.containsAll(namesList);
+        System.out.println("Проверка на наличие всех элементов коллекции в списке: " + contains);
 
         names.addAll(namesList);
         System.out.println("Список: " + names);
