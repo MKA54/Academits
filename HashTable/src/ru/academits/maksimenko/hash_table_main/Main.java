@@ -27,8 +27,8 @@ public class Main {
 
         System.out.println("Количество элементов в хэш-таблице: " + namesTable.size());
 
-        boolean isContains = namesTable.contains("Герман");
-        System.out.println("Наличие элемента в хэш-таблице: " + isContains);
+        boolean contains = namesTable.contains("Герман");
+        System.out.println("Наличие элемента в хэш-таблице: " + contains);
 
         Object[] objects = namesTable.toArray();
         System.out.println("Массив объектов: " + Arrays.toString(objects));
@@ -38,8 +38,8 @@ public class Main {
 
         List<String> studentsList = new ArrayList<>(Arrays.asList("Роман", "Виктор", "Генадий"));
 
-        isContains = namesTable.containsAll(studentsList);
-        System.out.println("Наличие всех студентов в таблице: " + isContains);
+        contains = namesTable.containsAll(studentsList);
+        System.out.println("Наличие всех студентов в таблице: " + contains);
 
         System.out.println(namesTable);
 
