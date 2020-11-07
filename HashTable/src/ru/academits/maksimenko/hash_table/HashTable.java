@@ -1,5 +1,6 @@
 package ru.academits.maksimenko.hash_table;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class HashTable<T> implements Collection<T> {
@@ -12,7 +13,7 @@ public class HashTable<T> implements Collection<T> {
      */
     public HashTable() {
         //noinspection unchecked
-        listsArray = new ArrayList[10];
+        listsArray = (ArrayList<T>[]) new ArrayList[10];
     }
 
     public HashTable(int size) {
@@ -21,7 +22,7 @@ public class HashTable<T> implements Collection<T> {
         }
 
         //noinspection unchecked
-        listsArray = new ArrayList[size];
+        listsArray = (ArrayList<T>[]) new ArrayList[size];
     }
 
     private int getIndex(Object o) {
@@ -46,11 +47,7 @@ public class HashTable<T> implements Collection<T> {
     public boolean contains(Object o) {
         int index = getIndex(o);
 
-        if (listsArray[index] != null) {
-            return listsArray[index].contains(o);
-        }
-
-        return false;
+        return listsArray[index] != null && listsArray[index].contains(o);
     }
 
     @Override
@@ -106,20 +103,10 @@ public class HashTable<T> implements Collection<T> {
 
         int i = 0;
 
-        for (T list : this) {
-            if (list == null) {
-                continue;
-            }
+        for (T element : this) {
+            objects[i] = element;
 
-            for (T element : this) {
-                objects[i] = element;
-
-                ++i;
-            }
-
-            if (i == size) {
-                break;
-            }
+            ++i;
         }
 
         return objects;
@@ -129,24 +116,16 @@ public class HashTable<T> implements Collection<T> {
     public <T1> T1[] toArray(T1[] a) {
         if (a.length < size) {
             //noinspection unchecked
-            a = (T1[]) Arrays.copyOf(a, size, a.getClass());
+            a = (T1[]) Array.newInstance(a.getClass().componentType(), size);
         }
 
         int index = 0;
 
-        for (T list : this) {
-            if (list != null) {
-                for (T element : this) {
-                    //noinspection unchecked
-                    a[index] = (T1) element;
+        for (T element : this) {
+            //noinspection unchecked
+            a[index] = (T1) element;
 
-                    ++index;
-                }
-            }
-
-            if (index == size) {
-                break;
-            }
+            ++index;
         }
 
         if (size < a.length) {
@@ -176,13 +155,11 @@ public class HashTable<T> implements Collection<T> {
     public boolean remove(Object o) {
         int index = getIndex(o);
 
-        if (listsArray[index] != null) {
-            if (listsArray[index].remove(o)) {
-                --size;
-                ++currentModification;
+        if (listsArray[index] != null && listsArray[index].remove(o)) {
+            --size;
+            ++currentModification;
 
-                return true;
-            }
+            return true;
         }
 
         return false;
@@ -218,7 +195,6 @@ public class HashTable<T> implements Collection<T> {
             return false;
         }
 
-        final int initialSize = size;
         int newSize = 0;
 
         for (int i = 0; i < listsArray.length; i++) {
@@ -226,13 +202,9 @@ public class HashTable<T> implements Collection<T> {
                 continue;
             }
 
-            int listLength = listsArray[i].size();
-
             listsArray[i].removeAll(c);
 
-            if (listLength != listsArray[i].size()) {
-                newSize += listsArray[i].size();
-            }
+            newSize += listsArray[i].size();
 
             if (listsArray[i].size() == 0) {
                 listsArray[i] = null;
@@ -243,14 +215,15 @@ public class HashTable<T> implements Collection<T> {
             size = newSize;
 
             ++currentModification;
+
+            return true;
         }
 
-        return initialSize != size;
+        return false;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        final int initialSize = size;
         int newSize = 0;
 
         for (int i = 0; i < listsArray.length; i++) {
@@ -258,13 +231,9 @@ public class HashTable<T> implements Collection<T> {
                 continue;
             }
 
-            int listLength = listsArray[i].size();
-
             listsArray[i].retainAll(c);
 
-            if (listLength != listsArray[i].size()) {
-                newSize += listsArray[i].size();
-            }
+            newSize += listsArray[i].size();
 
             if (listsArray[i].size() == 0) {
                 listsArray[i] = null;
@@ -275,9 +244,11 @@ public class HashTable<T> implements Collection<T> {
             size = newSize;
 
             ++currentModification;
+
+            return true;
         }
 
-        return initialSize != size;
+        return false;
     }
 
     @Override
@@ -285,6 +256,7 @@ public class HashTable<T> implements Collection<T> {
         Arrays.fill(listsArray, null);
 
         size = 0;
+        ++currentModification;
     }
 
     @Override
