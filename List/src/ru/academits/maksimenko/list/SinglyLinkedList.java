@@ -20,10 +20,12 @@ public class SinglyLinkedList<T> {
         return size;
     }
 
+    private void setSize(int size) {
+        this.size = size;
+    }
+
     public void add(T data) {
         insertByIndex(size, data);
-
-        ++size;
     }
 
     public T getFirstData() {
@@ -118,6 +120,8 @@ public class SinglyLinkedList<T> {
 
         newItem.setNext(previous.getNext());
         previous.setNext(newItem);
+
+        ++size;
     }
 
     public boolean deleteByData(T data) {
@@ -179,11 +183,14 @@ public class SinglyLinkedList<T> {
 
         SinglyLinkedList<T> copy = new SinglyLinkedList<>(head.getData());
 
-        for (ListItem<T> current = head.getNext(), currentCopy = copy.head; current != null; current = current.getNext(), currentCopy = currentCopy.getNext()) {
+        for (ListItem<T> current = head.getNext(), currentCopy = copy.head; current != null; current = current.getNext(),
+                currentCopy = currentCopy.getNext()) {
             ListItem<T> itemCopy = new ListItem<>(current.getData());
 
             currentCopy.setNext(itemCopy);
         }
+
+        copy.setSize(size);
 
         return copy;
     }
