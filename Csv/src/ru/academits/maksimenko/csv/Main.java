@@ -4,6 +4,15 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
+        int index1 = args[0].lastIndexOf(".csv");
+        int index2 = args[1].lastIndexOf(".html");
+
+        if (args.length != 2 || index1 != args[0].length() - 4 || index2 != args[1].length() - 5) {
+            System.out.println("Аргументы программы заданы неправильно. Путь для передачи аргументов: Run -> Edit Configuration -> Application " +
+                    "в поле Program Arguments указываете имя файла с данными в формате csv и через пробел имя файла в фромате html " +
+                    "в который будут сохранены данные.");
+        }
+
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]));
              PrintWriter printWriter = new PrintWriter(args[1])) {
             printWriter.print("<!doctype html>");
@@ -18,75 +27,69 @@ public class Main {
             char more = '>';
             char amp = '&';
 
-            int quotationCount = 0;
+            int quotesCount = 0;
 
-            StringBuilder csv = new StringBuilder();
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
                 int lineLength = line.length();
 
                 if (lineLength == 0) {
-                    csv.append("<p></p>");
-
                     continue;
                 }
 
-                if (quotationCount % 2 == 0) {
-                    printWriter.print("<tr>");
+                if (quotesCount % 2 == 0) {
+                    printWriter.print("<tr><td>");
                 }
 
                 for (int i = 0; i < lineLength; i++) {
                     char current = line.charAt(i);
 
                     if (current == quote) {
-                        ++quotationCount;
+                        ++quotesCount;
 
-                        if (quotationCount % 3 == 0) {
-                            csv.append(quote);
+                        if (quotesCount % 3 == 0) {
+                            printWriter.print(quote);
                         }
 
                         continue;
                     }
 
                     if (current == less) {
-                        csv.append("&lt;");
+                        printWriter.print("&lt;");
                         continue;
                     }
 
                     if (current == more) {
-                        csv.append("&gt;");
+                        printWriter.print("&gt;");
                         continue;
                     }
 
                     if (current == amp) {
-                        csv.append("&amp;");
+                        printWriter.print("&amp;");
                         continue;
                     }
 
-                    if (current == split && quotationCount % 2 == 0) {
-                        printWriter.print("<td>" + csv + "</td>");
+                    if (current == split && quotesCount % 2 == 0) {
+                        printWriter.print("</td><td>");
 
-                        csv.delete(0, csv.length());
-
-                        quotationCount = 0;
+                        quotesCount = 0;
 
                         continue;
                     }
 
-                    csv.append(current);
+                    printWriter.print(current);
                 }
 
-                if (quotationCount % 2 == 0) {
-                    printWriter.print("<td>" + csv + " </td></tr>");
+                if (quotesCount % 2 == 0) {
+                    printWriter.print("</td></tr>");
 
-                    quotationCount = 0;
-                    csv.delete(0, csv.length());
+                    quotesCount = 0;
 
                     continue;
                 }
 
-                csv.append("<br/>");
+                printWriter.print("<br/>");
             }
 
             printWriter.print("</table></body></html>");
