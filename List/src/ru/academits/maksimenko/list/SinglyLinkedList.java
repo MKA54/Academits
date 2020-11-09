@@ -11,7 +11,7 @@ public class SinglyLinkedList<T> {
     }
 
     public SinglyLinkedList(T data) {
-        this.head = new ListItem<>(data);
+        head = new ListItem<>(data);
 
         ++size;
     }
