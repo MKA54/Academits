@@ -33,9 +33,9 @@ public class MyArrayList<T> implements List<T> {
         size = collection.size();
     }
 
-    public void ensureCapacity(int size) {
-        if (size > items.length) {
-            items = Arrays.copyOf(items, size);
+    public void ensureCapacity(int minCapacity) {
+        if (minCapacity > items.length) {
+            items = Arrays.copyOf(items, minCapacity * 2);
         }
     }
 
@@ -99,7 +99,7 @@ public class MyArrayList<T> implements List<T> {
         //noinspection SuspiciousSystemArraycopy
         System.arraycopy(items, 0, a, 0, size);
 
-        if (items.length < a.length) {
+        if (size < a.length) {
             a[size] = null;
         }
 
@@ -241,10 +241,12 @@ public class MyArrayList<T> implements List<T> {
         }
 
         if (size == 0) {
-            ensureCapacity(10);
+            final int defaultSize = 10;
+
+            ensureCapacity(defaultSize);
         }
 
-        ensureCapacity(items.length + 1);
+        ensureCapacity(size + 1);
 
         System.arraycopy(items, index, items, index + 1, size - index);
 
