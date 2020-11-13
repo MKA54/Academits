@@ -222,7 +222,7 @@ public class Tree<T extends Comparable<T>> {
     /**
      * @noinspection unchecked
      */
-    public void visitInWidth() {
+    public void widthInVisit() {
         if (size == 0) {
             System.out.println("There are no elements in the tree");
 
@@ -248,22 +248,22 @@ public class Tree<T extends Comparable<T>> {
         }
     }
 
-    public void visitRecursionInDepth(TreeNode<T> node) {
+    public void depthInVisitRecursion(TreeNode<T> node) {
         System.out.println(node.getData());
 
         if (node.getLeft() != null) {
-            visitRecursionInDepth(node.getLeft());
+            depthInVisitRecursion(node.getLeft());
         }
 
         if (node.getRight() != null) {
-            visitRecursionInDepth(node.getRight());
+            depthInVisitRecursion(node.getRight());
         }
     }
 
     /**
      * @noinspection unchecked
      */
-    public void visitInDepth() {
+    public void depthInVisit() {
         if (size == 0) {
             System.out.println("There are no elements in the tree");
 

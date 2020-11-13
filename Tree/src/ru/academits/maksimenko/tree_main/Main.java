@@ -30,14 +30,14 @@ public class Main {
         System.out.println("Количество элементов в дереве: " + numbers.getSize());
 
         System.out.println("Обход дерева в глубину с рекурсией:");
-        numbers.visitRecursionInDepth(numbers.getRoot());
+        numbers.depthInVisitRecursion(numbers.getRoot());
         System.out.println();
 
         System.out.println("Обход дерева в глубину:");
-        numbers.visitInDepth();
+        numbers.depthInVisit();
         System.out.println();
 
         System.out.println("Обход дерева в ширину:");
-        numbers.visitInWidth();
+        numbers.widthInVisit();
     }
 }
