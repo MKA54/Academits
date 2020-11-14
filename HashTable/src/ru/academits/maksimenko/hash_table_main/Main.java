@@ -15,9 +15,7 @@ public class Main {
         namesTable.add("Владимир");
         namesTable.add("Виктор");
         namesTable.add("Генадий");
-        namesTable.add("Роман");
         namesTable.add("Константин");
-        namesTable.add("Николай");
 
         List<String> namesList = new ArrayList<>(Arrays.asList("Глеб", "Павел", "Герман"));
 

@@ -116,7 +116,7 @@ public class HashTable<T> implements Collection<T> {
     public <T1> T1[] toArray(T1[] a) {
         if (a.length < size) {
             //noinspection unchecked
-            a = (T1[]) Array.newInstance(a.getClass().componentType(), size);
+            return (T1[]) Arrays.copyOf(toArray(), size, a.getClass());
         }
 
         int index = 0;
@@ -158,6 +158,10 @@ public class HashTable<T> implements Collection<T> {
         if (listsArray[index] != null && listsArray[index].remove(o)) {
             --size;
             ++currentModification;
+
+            if (listsArray[index].size() == 0) {
+                listsArray[index] = null;
+            }
 
             return true;
         }
