@@ -272,17 +272,17 @@ public class Tree<T extends Comparable<T>> {
 
         Deque<T> stack = new LinkedList<>();
 
-        stack.add((T) root);
+        stack.addLast((T) root);
 
         while (!stack.isEmpty()) {
             TreeNode<T> current = (TreeNode<T>) stack.removeLast();
 
             if (current.getRight() != null) {
-                stack.add((T) current.getRight());
+                stack.addLast((T) current.getRight());
             }
 
             if (current.getLeft() != null) {
-                stack.add((T) current.getLeft());
+                stack.addLast((T) current.getLeft());
             }
 
             System.out.println(current.getData());
