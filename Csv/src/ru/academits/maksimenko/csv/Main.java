@@ -4,97 +4,93 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        int index1 = args[0].lastIndexOf(".csv");
-        int index2 = args[1].lastIndexOf(".html");
+        if (args.length != 2) {
+            System.out.println("Передано аргументов: " + args.length + ". После имени класса, через пробел перечислите " +
+                    "место расположения, название файла csv и место сохранения с именем файла html");
+        } else {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]));
+                 PrintWriter printWriter = new PrintWriter(args[1])) {
+                printWriter.print("<!doctype html>");
+                printWriter.print("<html>");
+                printWriter.print("<head><meta charset=\"utf-8\"><title>Таблица</title></head>");
+                printWriter.print("<body>");
+                printWriter.print("<table border=\"2\" width=\"600\" align=\"center\">");
 
-        if (args.length != 2 || index1 != args[0].length() - 4 || index2 != args[1].length() - 5) {
-            System.out.println("Аргументы программы заданы неправильно. Путь для передачи аргументов: Run -> Edit Configuration -> Application " +
-                    "в поле Program Arguments указываете имя файла с данными в формате csv и через пробел имя файла в фромате html " +
-                    "в который будут сохранены данные.");
-        }
+                char cellSeparator = ',';
+                char quote = '"';
+                char less = '<';
+                char more = '>';
+                char amp = '&';
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]));
-             PrintWriter printWriter = new PrintWriter(args[1])) {
-            printWriter.print("<!doctype html>");
-            printWriter.print("<html>");
-            printWriter.print("<head><meta charset=\"utf-8\"><title>Таблица</title></head>");
-            printWriter.print("<body>");
-            printWriter.print("<table border=\"2\" width=\"600\" align=\"center\">");
+                int quotesCount = 0;
 
-            char split = ',';
-            char quote = '"';
-            char less = '<';
-            char more = '>';
-            char amp = '&';
+                String line;
 
-            int quotesCount = 0;
+                while ((line = bufferedReader.readLine()) != null) {
+                    int lineLength = line.length();
 
-            String line;
+                    if (lineLength == 0) {
+                        continue;
+                    }
 
-            while ((line = bufferedReader.readLine()) != null) {
-                int lineLength = line.length();
+                    if (quotesCount % 2 == 0) {
+                        printWriter.print("<tr><td>");
+                    }
 
-                if (lineLength == 0) {
-                    continue;
-                }
+                    for (int i = 0; i < lineLength; i++) {
+                        char currentCharacter = line.charAt(i);
 
-                if (quotesCount % 2 == 0) {
-                    printWriter.print("<tr><td>");
-                }
+                        if (currentCharacter == quote) {
+                            ++quotesCount;
 
-                for (int i = 0; i < lineLength; i++) {
-                    char current = line.charAt(i);
+                            if (quotesCount % 3 == 0) {
+                                printWriter.print(quote);
+                            }
 
-                    if (current == quote) {
-                        ++quotesCount;
-
-                        if (quotesCount % 3 == 0) {
-                            printWriter.print(quote);
+                            continue;
                         }
 
-                        continue;
+                        if (currentCharacter == less) {
+                            printWriter.print("&lt;");
+                            continue;
+                        }
+
+                        if (currentCharacter == more) {
+                            printWriter.print("&gt;");
+                            continue;
+                        }
+
+                        if (currentCharacter == amp) {
+                            printWriter.print("&amp;");
+                            continue;
+                        }
+
+                        if (currentCharacter == cellSeparator && quotesCount % 2 == 0) {
+                            printWriter.print("</td><td>");
+
+                            quotesCount = 0;
+
+                            continue;
+                        }
+
+                        printWriter.print(currentCharacter);
                     }
 
-                    if (current == less) {
-                        printWriter.print("&lt;");
-                        continue;
-                    }
-
-                    if (current == more) {
-                        printWriter.print("&gt;");
-                        continue;
-                    }
-
-                    if (current == amp) {
-                        printWriter.print("&amp;");
-                        continue;
-                    }
-
-                    if (current == split && quotesCount % 2 == 0) {
-                        printWriter.print("</td><td>");
+                    if (quotesCount % 2 == 0) {
+                        printWriter.print("</td></tr>");
 
                         quotesCount = 0;
 
                         continue;
                     }
 
-                    printWriter.print(current);
+                    printWriter.print("<br/>");
                 }
 
-                if (quotesCount % 2 == 0) {
-                    printWriter.print("</td></tr>");
-
-                    quotesCount = 0;
-
-                    continue;
-                }
-
-                printWriter.print("<br/>");
+                printWriter.print("</table></body></html>");
+            } catch (IOException e) {
+                System.out.println("Файл не найден");
             }
-
-            printWriter.print("</table></body></html>");
-        } catch (IOException e) {
-            System.out.println("Файл не найден");
         }
     }
 }
