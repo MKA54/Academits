@@ -20,10 +20,6 @@ public class SinglyLinkedList<T> {
         return size;
     }
 
-    private void setSize(int size) {
-        this.size = size;
-    }
-
     public void add(T data) {
         insertByIndex(size, data);
     }
@@ -190,7 +186,7 @@ public class SinglyLinkedList<T> {
             currentCopy.setNext(itemCopy);
         }
 
-        copy.setSize(size);
+        copy.size = size;
 
         return copy;
     }
