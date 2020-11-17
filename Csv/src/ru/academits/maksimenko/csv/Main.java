@@ -5,8 +5,8 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
         if (args.length != 2) {
-            System.out.println("Передано аргументов: " + args.length + ". После имени класса, через пробел перечислите " +
-                    "место расположения, название файла csv и место сохранения с именем файла html");
+            System.out.println("Передано аргументов: " + args.length + ". Нужно передать 2 аргумента: путь к входному " +
+                    "CSV файлу и путь к результирующему HTML файлу.");
         } else {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(args[0]));
                  PrintWriter printWriter = new PrintWriter(args[1])) {
