@@ -8,15 +8,15 @@ public class Main {
         Matrix matrix1 = new Matrix(3, 5);
         System.out.println("Матрица нулей: " + matrix1);
 
-        double[][] matrix = new double[4][9];
+        double[][] array = new double[4][9];
 
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0, number = 1; j < matrix[i].length; j++, number++) {
-                matrix[i][j] = number;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0, number = 1; j < array[i].length; j++, number++) {
+                array[i][j] = number;
             }
         }
 
-        Matrix matrix2 = new Matrix(matrix);
+        Matrix matrix2 = new Matrix(array);
         System.out.println("Матрица из двумерного массива: " + matrix2);
 
         Vector[] vectors1 = {
@@ -79,7 +79,7 @@ public class Main {
 
         Matrix matrix6 = new Matrix(vectors3);
 
-        Vector vector4 = new Vector(new double[]{1, 2, -1});
+        Vector vector4 = new Vector(new double[]{1, 7, 8});
 
         Vector vector5 = matrix6.getProduct(vector4);
         System.out.println("Результат умножения матрицы на вектор: " + vector5);

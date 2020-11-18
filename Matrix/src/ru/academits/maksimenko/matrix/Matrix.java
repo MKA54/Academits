@@ -2,18 +2,16 @@ package ru.academits.maksimenko.matrix;
 
 import ru.academits.maksimenko.vector.Vector;
 
-import java.util.Arrays;
-
 public class Matrix {
     private Vector[] rows;
 
     public Matrix(int rowsCount, int columnsCount) {
         if (rowsCount <= 0) {
-            throw new IllegalArgumentException("The count of rows must be greater than 0: " + rowsCount);
+            throw new IllegalArgumentException("The number of rows must be greater than 0, the value entered: " + rowsCount);
         }
 
         if (columnsCount <= 0) {
-            throw new IllegalArgumentException("The count of columns must be greater than 0: " + columnsCount);
+            throw new IllegalArgumentException("The count of columns must be greater than 0, the value entered: " + columnsCount);
         }
 
         rows = new Vector[rowsCount];
@@ -25,19 +23,21 @@ public class Matrix {
 
     public Matrix(double[][] array) {
         if (array.length == 0) {
-            throw new IllegalArgumentException("The count of rows in the array must be greater than 0: " + array.length);
+            throw new IllegalArgumentException("The count of rows in the array must be greater than 0, the current number of rows: " + array.length);
         }
 
         rows = new Vector[array.length];
 
-        for (int j = 0; j < array.length; j++) {
-            if (array[j].length < array[0].length) {
-                rows[j] = new Vector(Arrays.copyOf(array[j], array[0].length));
+        int maxSize = 0;
 
-                continue;
+        for (double[] doubles : array) {
+            if (maxSize < doubles.length) {
+                maxSize = doubles.length;
             }
+        }
 
-            rows[j] = new Vector(array[j]);
+        for (int j = 0; j < array.length; j++) {
+            rows[j] = new Vector(maxSize, array[j]);
         }
     }
 
@@ -47,7 +47,7 @@ public class Matrix {
 
     public Matrix(Vector[] vectorsArray) {
         if (vectorsArray.length == 0) {
-            throw new IllegalArgumentException("Invalid array length: " + vectorsArray.length);
+            throw new IllegalArgumentException("The array size must be greater than 0, the current size: " + vectorsArray.length);
         }
 
         int maxSize = 0;
@@ -66,7 +66,7 @@ public class Matrix {
 
         for (int i = 0; i < vectorsArray.length; i++) {
             if (vectorsArray[i].getSize() < maxSize) {
-                rows[i] = new Vector(Vector.getSum(vectorsArray[i], new Vector(new double[maxSize])));
+                rows[i] = Vector.getSum(vectorsArray[i], new Vector(new double[maxSize]));
 
                 continue;
             }
@@ -182,13 +182,19 @@ public class Matrix {
     public Vector getProduct(Vector vector) {
         if (vector.getSize() != getColumnsCount()) {
             throw new IllegalArgumentException("The dimension of the vector is not equal to the dimension of the matrix: vector "
-                    + vector.getSize() + ", matrix " + getColumnsCount());
+                    + vector.getSize() + ", matrix " + getRowsCount() + "x" + getColumnsCount());
         }
 
         Vector result = new Vector(vector.getSize());
 
         for (int i = 0; i < result.getSize(); i++) {
-            result.setCoordinateByIndex(i, Vector.getScalarProduct(vector, rows[i]));
+            double coordinate = 0;
+
+            for (int j = 0; j < getColumnsCount(); j++) {
+                coordinate += rows[i].getCoordinateByIndex(j) * vector.getCoordinateByIndex(j);
+            }
+
+            result.setCoordinateByIndex(i, coordinate);
         }
 
         return result;
