@@ -6,13 +6,14 @@ public class MyArrayList<T> implements List<T> {
     private T[] items;
     private int size;
     private int currentModification;
+    private final int defaultSize = 10;
 
     /**
      * @noinspection unused
      */
     public MyArrayList() {
         //noinspection unchecked
-        items = (T[]) new Object[10];
+        items = (T[]) new Object[defaultSize];
     }
 
     /**
@@ -35,7 +36,7 @@ public class MyArrayList<T> implements List<T> {
 
     public void ensureCapacity(int minCapacity) {
         if (minCapacity > items.length) {
-            items = Arrays.copyOf(items, minCapacity * 2);
+            items = Arrays.copyOf(items, minCapacity);
         }
     }
 
@@ -241,12 +242,10 @@ public class MyArrayList<T> implements List<T> {
         }
 
         if (size == 0) {
-            final int defaultSize = 10;
-
             ensureCapacity(defaultSize);
         }
 
-        ensureCapacity(size + 1);
+        ensureCapacity(size * 2);
 
         System.arraycopy(items, index, items, index + 1, size - index);
 
