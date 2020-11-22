@@ -1,10 +1,9 @@
 package ru.academits.maksimenko.hash_table;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class HashTable<T> implements Collection<T> {
-    private ArrayList<T>[] listsArray;
+    private final ArrayList<T>[] listsArray;
     private int size;
     private int currentModification;
 
