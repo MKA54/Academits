@@ -11,19 +11,18 @@ public class Test {
         System.out.print("Введите число: ");
         double number = scanner.nextDouble();
 
-        System.out.print("Сколько элементов вычеслить: ");
+        System.out.print("Сколько элементов вычислить: ");
         int elementsCount = scanner.nextInt();
 
         DoubleStream roots = DoubleStream.iterate(number, Math::sqrt)
-                .skip(1)
                 .limit(elementsCount);
 
         roots.forEach(System.out::println);
 
         System.out.println("Числа Фибоначчи: ");
         Stream.iterate(new int[]{0, 1}, f -> new int[]{f[1], f[0] + f[1]})
-                .limit(10)
                 .map(f -> f[0])
+                .limit(10)
                 .forEach(System.out::println);
     }
 }

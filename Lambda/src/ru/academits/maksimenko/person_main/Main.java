@@ -27,12 +27,10 @@ public class Main {
 
         System.out.println("Список уникальных имен: " + uniqueNamesList);
 
-        String uniqueNames = persons.stream()
-                .map(Person::getName)
-                .distinct()
+        String uniqueNamesString = uniqueNamesList.stream()
                 .collect(Collectors.joining(", ", "Имена: ", "."));
 
-        System.out.println(uniqueNames);
+        System.out.println(uniqueNamesString);
 
         List<Person> minorsList = persons.stream()
                 .filter(p -> p.getAge() < 18)
@@ -50,11 +48,11 @@ public class Main {
 
         namesakesAverageAges.forEach((name, age) -> System.out.printf("%s, средний возраст: %.2f%n", name, age));
 
-        List<Person> personsAverageAges = persons.stream()
+        List<Person> middleAgedPeopleNames = persons.stream()
                 .filter(p -> p.getAge() >= 20 && p.getAge() <= 40)
                 .sorted(Comparator.comparingInt(Person::getAge).reversed())
                 .collect(Collectors.toList());
 
-        personsAverageAges.forEach(System.out::println);
+        middleAgedPeopleNames.forEach(System.out::println);
     }
 }

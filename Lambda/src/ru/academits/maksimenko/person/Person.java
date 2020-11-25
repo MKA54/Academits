@@ -1,8 +1,8 @@
 package ru.academits.maksimenko.person;
 
 public class Person {
-    int age;
-    String name;
+    private int age;
+    private String name;
 
     public Person(int age, String name) {
         this.age = age;
@@ -27,6 +27,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return name + "=" + age;
+        return name + " = " + age;
     }
 }
