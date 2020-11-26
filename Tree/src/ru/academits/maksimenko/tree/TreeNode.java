@@ -1,6 +1,6 @@
 package ru.academits.maksimenko.tree;
 
-class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
+class TreeNode<T> {
     private TreeNode<T> left;
     private TreeNode<T> right;
     private T data;
@@ -29,12 +29,10 @@ class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
         return data;
     }
 
+    /**
+     * @noinspection unused
+     */
     public void setData(T data) {
         this.data = data;
-    }
-
-    @Override
-    public int compareTo(TreeNode<T> o) {
-        return data.compareTo(o.data);
     }
 }
