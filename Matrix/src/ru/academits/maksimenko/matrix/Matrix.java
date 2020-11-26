@@ -7,7 +7,7 @@ public class Matrix {
 
     public Matrix(int rowsCount, int columnsCount) {
         if (rowsCount <= 0) {
-            throw new IllegalArgumentException("The number of rows must be greater than 0, the value entered: " + rowsCount);
+            throw new IllegalArgumentException("The count of rows must be greater than 0, the value entered: " + rowsCount);
         }
 
         if (columnsCount <= 0) {
@@ -181,20 +181,14 @@ public class Matrix {
 
     public Vector getProduct(Vector vector) {
         if (vector.getSize() != getColumnsCount()) {
-            throw new IllegalArgumentException("The dimension of the vector is not equal to the dimension of the matrix: vector "
-                    + vector.getSize() + ", matrix " + getRowsCount() + "x" + getColumnsCount());
+            throw new IllegalArgumentException("The size of the vector is not equal to the count of columns in the matrix: vector "
+                    + vector.getSize() + ", matrix " + getColumnsCount());
         }
 
         Vector result = new Vector(vector.getSize());
 
         for (int i = 0; i < result.getSize(); i++) {
-            double coordinate = 0;
-
-            for (int j = 0; j < getColumnsCount(); j++) {
-                coordinate += rows[i].getCoordinateByIndex(j) * vector.getCoordinateByIndex(j);
-            }
-
-            result.setCoordinateByIndex(i, coordinate);
+            result.setCoordinateByIndex(i, Vector.getScalarProduct(vector, rows[i]));
         }
 
         return result;
