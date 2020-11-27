@@ -185,7 +185,7 @@ public class Matrix {
                     + vector.getSize() + ", matrix " + getColumnsCount());
         }
 
-        Vector result = new Vector(vector.getSize());
+        Vector result = new Vector(getRowsCount());
 
         for (int i = 0; i < result.getSize(); i++) {
             result.setCoordinateByIndex(i, Vector.getScalarProduct(vector, rows[i]));
