@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
     private final static int DEFAULT_CAPACITY = 10;
-    
+
     private T[] items;
     private int size;
     private int currentModification;
@@ -246,7 +246,7 @@ public class MyArrayList<T> implements List<T> {
             ensureCapacity(DEFAULT_CAPACITY);
         }
 
-        if (size + 1 > items.length){
+        if (size + 1 > items.length) {
             ensureCapacity(items.length * 2);
         }
 
