@@ -40,7 +40,7 @@ public class House {
         this.color = color;
     }
 
-    public double houseArea(int length, int width) {
+    public double houseArea() {
         return length * width;
     }
 
