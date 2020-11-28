@@ -3,17 +3,18 @@ package ru.academits.maksimenko.array_list;
 import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
+    private final static int DEFAULT_CAPACITY = 10;
+    
     private T[] items;
     private int size;
     private int currentModification;
-    private final int defaultSize = 10;
 
     /**
      * @noinspection unused
      */
     public MyArrayList() {
         //noinspection unchecked
-        items = (T[]) new Object[defaultSize];
+        items = (T[]) new Object[DEFAULT_CAPACITY];
     }
 
     /**
@@ -242,10 +243,12 @@ public class MyArrayList<T> implements List<T> {
         }
 
         if (size == 0) {
-            ensureCapacity(defaultSize);
+            ensureCapacity(DEFAULT_CAPACITY);
         }
 
-        ensureCapacity(size * 2);
+        if (size + 1 > items.length){
+            ensureCapacity(items.length * 2);
+        }
 
         System.arraycopy(items, index, items, index + 1, size - index);
 
