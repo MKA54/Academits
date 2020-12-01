@@ -33,15 +33,16 @@ public class Main {
         System.out.println("Количество элементов в дереве: " + numbers1.getSize());
 
         System.out.println("Обход дерева в глубину с рекурсией:");
-        numbers1.visitInDepthRecursion();
+        numbers1.visitInDepthRecursion(System.out::println);
         System.out.println();
 
         System.out.println("Обход дерева в глубину:");
-        numbers1.visitInDepth();
+        numbers1.visitInDepth(System.out::println);
         System.out.println();
 
         System.out.println("Обход дерева в ширину:");
-        numbers1.visitInWidth();
+        numbers1.visitInWidth(System.out::println);
+        System.out.println();
 
         Tree<Integer> numbers2 = new Tree<>(Comparator.reverseOrder());
 
@@ -54,6 +55,6 @@ public class Main {
         numbers2.add(25);
 
         System.out.println("Обход дерева в ширину:");
-        numbers2.visitInWidth();
+        numbers2.visitInWidth(System.out::println);
     }
 }

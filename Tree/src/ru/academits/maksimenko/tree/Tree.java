@@ -262,7 +262,7 @@ public class Tree<T> {
         System.out.println("There are no elements in the print");
     }
 
-    public void visitInWidth() {
+    public void visitInWidth(Consumer<T> consumer) {
         if (size == 0) {
             print();
 
@@ -273,12 +273,10 @@ public class Tree<T> {
 
         queue.add(root);
 
-        Consumer<T> print = System.out::println;
-
         while (!queue.isEmpty()) {
             TreeNode<T> current = queue.remove();
 
-            print.accept(current.getData());
+            consumer.accept(current.getData());
 
             if (current.getLeft() != null) {
                 queue.add(current.getLeft());
@@ -290,35 +288,33 @@ public class Tree<T> {
         }
     }
 
-    public void visitInDepthRecursion() {
+    public void visitInDepthRecursion(Consumer<T> consumer) {
         if (size == 0) {
             print();
 
             return;
         }
 
-        Consumer<T> print = System.out::println;
-
-        visit(root, print);
+        visit(root, consumer);
     }
 
-    private void visit(TreeNode<T> node, Consumer<T> print) {
+    private void visit(TreeNode<T> node, Consumer<T> consumer) {
         if (node == null) {
             return;
         }
 
-        print.accept(node.getData());
+        consumer.accept(node.getData());
 
         if (node.getLeft() != null) {
-            visit(node.getLeft(), print);
+            visit(node.getLeft(), consumer);
         }
 
         if (node.getRight() != null) {
-            visit(node.getRight(), print);
+            visit(node.getRight(), consumer);
         }
     }
 
-    public void visitInDepth() {
+    public void visitInDepth(Consumer<T> consumer) {
         if (size == 0) {
             print();
 
@@ -329,12 +325,10 @@ public class Tree<T> {
 
         stack.addLast(root);
 
-        Consumer<T> print = System.out::println;
-
         while (!stack.isEmpty()) {
             TreeNode<T> current = stack.removeLast();
 
-            print.accept(current.getData());
+            consumer.accept(current.getData());
 
             if (current.getRight() != null) {
                 stack.addLast(current.getRight());
