@@ -20,14 +20,14 @@ public class Main {
         Graph graph = new Graph(array);
 
         System.out.println("Обход графа в ширину:");
-        graph.visitInWidth();
+        graph.visitInWidth(System.out::println);
         System.out.println();
 
         System.out.println("Обход графа в глубину:");
-        graph.visitInDepth();
+        graph.visitInDepth(System.out::println);
         System.out.println();
 
         System.out.println("Обход графа в глубину с рекурсией:");
-        graph.visitInDepthRecursion();
+        graph.visitInDepthRecursion(System.out::println);
     }
 }

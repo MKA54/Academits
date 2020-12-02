@@ -14,26 +14,20 @@ public class Graph {
             throw new IllegalArgumentException("The count of rows in the array must be greater than 0, the current number of rows: " + graph.length);
         }
 
-        if (graph.length != graph[0].length) {
-            throw new IllegalArgumentException("The matrix is not square " + graph.length + "x" + graph[0].length);
-        }
-
-        int maxSize = 0;
-
-        for (int[] array : graph) {
-            if (maxSize < array.length) {
-                maxSize = array.length;
+        for (int[] arrays : graph) {
+            if (graph.length != arrays.length) {
+                throw new IllegalArgumentException("The matrix is not square " + graph.length + "x" + arrays.length);
             }
         }
 
-        this.graph = new int[graph.length][maxSize];
+        this.graph = new int[graph.length][graph[0].length];
 
         for (int i = 0; i < graph.length; i++) {
-            this.graph[i] = Arrays.copyOf(graph[i], maxSize);
+            this.graph[i] = Arrays.copyOf(graph[i], graph[0].length);
         }
     }
 
-    public void visitInWidth() {
+    public void visitInWidth(IntConsumer consumer) {
         boolean[] visited = new boolean[graph.length];
 
         Queue<Integer> queue = new LinkedList<>();
@@ -42,12 +36,10 @@ public class Graph {
 
         visited[0] = true;
 
-        IntConsumer print = System.out::println;
-
         while (!queue.isEmpty()) {
             int top = queue.remove();
 
-            print.accept(top);
+            consumer.accept(top);
 
             for (int i = 0; i < graph[top].length; i++) {
                 if (graph[top][i] == 1 && !visited[i]) {
@@ -63,13 +55,15 @@ public class Graph {
                         queue.add(i);
 
                         visited[i] = true;
+
+                        break;
                     }
                 }
             }
         }
     }
 
-    public void visitInDepth() {
+    public void visitInDepth(IntConsumer consumer) {
         boolean[] visited = new boolean[graph.length];
 
         Deque<Integer> stack = new LinkedList<>();
@@ -78,67 +72,55 @@ public class Graph {
 
         visited[0] = true;
 
-        IntConsumer print = System.out::println;
-
         while (!stack.isEmpty()) {
             int top = stack.removeLast();
 
-            print.accept(top);
+            consumer.accept(top);
 
-            for (int i = 0; i < graph[top].length; i++) {
+            for (int i = graph[top].length - 1; i >= 0; i--) {
                 if (graph[top][i] == 1 && !visited[i]) {
-                    stack.addLast(i);
+                    stack.addFirst(i);
 
                     visited[i] = true;
                 }
             }
 
             if (stack.isEmpty()) {
-                for (int i = visited.length - 1; i >= 0; i--) {
+                for (int i = 0; i < graph[top].length; i++) {
                     if (!visited[i]) {
                         stack.addLast(i);
 
                         visited[i] = true;
+
+                        break;
                     }
                 }
             }
         }
     }
 
-    public void visitInDepthRecursion() {
-        IntConsumer print = System.out::println;
-
-        boolean[] visited = new boolean[graph.length];
-
-        Deque<Integer> stack = new LinkedList<>();
-
-        visit(0, print, visited, stack);
+    public void visitInDepthRecursion(IntConsumer consumer) {
+        visit(0, consumer, new boolean[graph.length]);
     }
 
-    private void visit(int top, IntConsumer print, boolean[] visited, Deque<Integer> stack) {
+    private void visit(int top, IntConsumer consumer, boolean[] visited) {
         if (visited[top]) {
             return;
         }
 
-        stack.addLast(top);
-
         visited[top] = true;
 
-        print.accept(top);
+        consumer.accept(top);
 
         for (int i = graph[top].length - 1; i >= 0; i--) {
             if (graph[top][i] == 1 && !visited[i]) {
-                visit(i, print, visited, stack);
+                visit(i, consumer, visited);
             }
         }
 
-        stack.removeLast();
-
-        if (stack.isEmpty()) {
-            for (int i = 0; i < graph[top].length; i++) {
-                if (!visited[i]) {
-                    visit(i, print, visited, stack);
-                }
+        for (int i = 0; i < graph[top].length; i++) {
+            if (!visited[i]) {
+                visit(i, consumer, visited);
             }
         }
     }
