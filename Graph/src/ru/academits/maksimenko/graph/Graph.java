@@ -77,9 +77,9 @@ public class Graph {
 
             consumer.accept(top);
 
-            for (int i = graph[top].length - 1; i >= 0; i--) {
+            for (int i = 0; i < graph[top].length; i++) {
                 if (graph[top][i] == 1 && !visited[i]) {
-                    stack.addFirst(i);
+                    stack.addLast(i);
 
                     visited[i] = true;
                 }
