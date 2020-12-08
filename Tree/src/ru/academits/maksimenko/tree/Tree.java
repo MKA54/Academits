@@ -11,12 +11,23 @@ public class Tree<T> {
     public Tree() {
     }
 
-    public Tree(Comparator<? super T> c) {
-        comparator = c;
+    public Tree(Comparator<? super T> comparator) {
+        this.comparator = comparator;
     }
 
     public int getSize() {
         return size;
+    }
+
+    private int getComparisonResult(T data1, T data2) {
+        if (comparator != null) {
+            return comparator.compare(data1, data2);
+        }
+
+        //noinspection unchecked
+        Comparable<T> value = (Comparable<T>) data1;
+
+        return value.compareTo(data2);
     }
 
     public void add(T data) {
@@ -34,12 +45,8 @@ public class Tree<T> {
 
         TreeNode<T> current = root;
 
-        //noinspection unchecked
-        Comparable<T> value = (Comparable<T>) data;
-
         while (true) {
-            int afterComparisonValue = comparator != null ? comparator.compare(data, current.getData()) :
-                    value.compareTo(current.getData());
+            int afterComparisonValue = getComparisonResult(data, current.getData());
 
             if (afterComparisonValue < 0) {
                 if (current.getLeft() == null) {
@@ -70,12 +77,8 @@ public class Tree<T> {
             return false;
         }
 
-        //noinspection unchecked
-        Comparable<T> value = (Comparable<T>) data;
-
         for (TreeNode<T> current = root; current != null; ) {
-            int afterComparisonValue = comparator != null ? comparator.compare(data, current.getData()) :
-                    value.compareTo(current.getData());
+            int afterComparisonValue = getComparisonResult(data, current.getData());
 
             if (afterComparisonValue == 0) {
                 return true;
@@ -107,15 +110,13 @@ public class Tree<T> {
         }
 
         final int initialSize = size;
-        //noinspection unchecked
-        Comparable<T> value = (Comparable<T>) data;
 
         for (TreeNode<T> current = root, previous = null; current != null; ) {
-            int afterCurrentComparison = comparator != null ? comparator.compare(data, current.getData()) :
-                    value.compareTo(current.getData());
+            int afterCurrentComparison = getComparisonResult(data, current.getData());
 
-            int afterPreviousComparison = previous == null ? 0 : comparator != null ? comparator.compare(data, previous.getData()) :
-                    value.compareTo(previous.getData());
+            int afterPreviousComparison = previous == null
+                    ? 0 :
+                    getComparisonResult(data, previous.getData());
 
             if (afterCurrentComparison == 0 && current.getLeft() == null && current.getRight() == null) {
                 if (current == root) {
@@ -258,14 +259,8 @@ public class Tree<T> {
         return initialSize != size;
     }
 
-    private void print() {
-        System.out.println("There are no elements in the print");
-    }
-
     public void visitInWidth(Consumer<T> consumer) {
         if (size == 0) {
-            print();
-
             return;
         }
 
@@ -290,8 +285,6 @@ public class Tree<T> {
 
     public void visitInDepthRecursion(Consumer<T> consumer) {
         if (size == 0) {
-            print();
-
             return;
         }
 
@@ -316,8 +309,6 @@ public class Tree<T> {
 
     public void visitInDepth(Consumer<T> consumer) {
         if (size == 0) {
-            print();
-
             return;
         }
 

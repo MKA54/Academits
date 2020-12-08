@@ -24,7 +24,7 @@ public class Main {
 
         System.out.println("Количество элементов в дереве: " + numbers1.getSize());
 
-        boolean contains = numbers1.contains(25);
+        boolean contains = numbers1.contains(15);
         System.out.println("Наличие числа в дереве: " + contains);
 
         boolean remove = numbers1.remove(45);
