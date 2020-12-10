@@ -54,9 +54,9 @@ public class FrameView implements View {
             JButton initialFahrenheit = new JButton("Фаренгейт");
             panel2.add(initialFahrenheit);
 
-            AtomicBoolean initCelsius = new AtomicBoolean(false);
-            AtomicBoolean initKelvin = new AtomicBoolean(false);
-            AtomicBoolean initFahrenheit = new AtomicBoolean(false);
+            AtomicBoolean initCelsius = new AtomicBoolean();
+            AtomicBoolean initKelvin = new AtomicBoolean();
+            AtomicBoolean initFahrenheit = new AtomicBoolean();
 
             initialCelsius.addActionListener(e -> {
                 initCelsius.set(true);
@@ -96,9 +96,9 @@ public class FrameView implements View {
             JButton resultingFahrenheit = new JButton("Фаренгейт");
             panel3.add(resultingFahrenheit);
 
-            AtomicBoolean resultCelsius = new AtomicBoolean(false);
-            AtomicBoolean resultKelvin = new AtomicBoolean(false);
-            AtomicBoolean resultFahrenheit = new AtomicBoolean(false);
+            AtomicBoolean resultCelsius = new AtomicBoolean();
+            AtomicBoolean resultKelvin = new AtomicBoolean();
+            AtomicBoolean resultFahrenheit = new AtomicBoolean();
 
             resultingCelsius.addActionListener(e -> {
                 resultCelsius.set(true);
