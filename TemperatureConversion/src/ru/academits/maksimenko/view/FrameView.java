@@ -25,34 +25,34 @@ public class FrameView implements View {
             frame.setResizable(false);
             frame.setVisible(true);
 
-            JPanel panel1 = new JPanel();
-            frame.add(panel1, BorderLayout.PAGE_START);
+            JPanel inputPanel = new JPanel();
+            frame.add(inputPanel, BorderLayout.PAGE_START);
 
             JLabel inputLabel = new JLabel("Введите температуру");
-            panel1.add(inputLabel);
+            inputPanel.add(inputLabel);
 
             JTextField temperatureField = new JTextField(8);
-            panel1.add(temperatureField);
+            inputPanel.add(temperatureField);
 
             JButton buttonConvert = new JButton("Сконвертировать");
-            panel1.add(buttonConvert);
+            inputPanel.add(buttonConvert);
 
-            JPanel panel2 = new JPanel();
-            panel2.setLayout(new BoxLayout(panel2, BoxLayout.PAGE_AXIS));
+            JPanel initialTemperaturePanel = new JPanel();
+            initialTemperaturePanel.setLayout(new BoxLayout(initialTemperaturePanel, BoxLayout.PAGE_AXIS));
 
-            frame.add(panel2, BorderLayout.LINE_START);
+            frame.add(initialTemperaturePanel, BorderLayout.LINE_START);
 
             JLabel initialScale = new JLabel("Выберете начальную шкалу");
-            panel2.add(initialScale);
+            initialTemperaturePanel.add(initialScale);
 
             JButton initialCelsius = new JButton("Цельсий");
-            panel2.add(initialCelsius);
+            initialTemperaturePanel.add(initialCelsius);
 
             JButton initialKelvin = new JButton("Кельвин");
-            panel2.add(initialKelvin);
+            initialTemperaturePanel.add(initialKelvin);
 
             JButton initialFahrenheit = new JButton("Фаренгейт");
-            panel2.add(initialFahrenheit);
+            initialTemperaturePanel.add(initialFahrenheit);
 
             AtomicBoolean initCelsius = new AtomicBoolean();
             AtomicBoolean initKelvin = new AtomicBoolean();
@@ -79,22 +79,22 @@ public class FrameView implements View {
                 initialKelvin.setEnabled(false);
             });
 
-            JPanel panel3 = new JPanel();
-            panel3.setLayout(new BoxLayout(panel3, BoxLayout.PAGE_AXIS));
+            JPanel endTemperaturePanel = new JPanel();
+            endTemperaturePanel.setLayout(new BoxLayout(endTemperaturePanel, BoxLayout.PAGE_AXIS));
 
-            frame.add(panel3, BorderLayout.CENTER);
+            frame.add(endTemperaturePanel, BorderLayout.CENTER);
 
             JLabel resultingScale = new JLabel("Выберете результирующую шкалу");
-            panel3.add(resultingScale);
+            endTemperaturePanel.add(resultingScale);
 
             JButton resultingCelsius = new JButton("Цельсий");
-            panel3.add(resultingCelsius);
+            endTemperaturePanel.add(resultingCelsius);
 
             JButton resultingKelvin = new JButton("Кельвин");
-            panel3.add(resultingKelvin);
+            endTemperaturePanel.add(resultingKelvin);
 
             JButton resultingFahrenheit = new JButton("Фаренгейт");
-            panel3.add(resultingFahrenheit);
+            endTemperaturePanel.add(resultingFahrenheit);
 
             AtomicBoolean resultCelsius = new AtomicBoolean();
             AtomicBoolean resultKelvin = new AtomicBoolean();
@@ -121,11 +121,11 @@ public class FrameView implements View {
                 resultingKelvin.setEnabled(false);
             });
 
-            JPanel panel4 = new JPanel();
-            frame.add(panel4, BorderLayout.PAGE_END);
+            JPanel resultPanel = new JPanel();
+            frame.add(resultPanel, BorderLayout.PAGE_END);
 
             JLabel resultLabel = new JLabel();
-            panel4.add(resultLabel);
+            resultPanel.add(resultLabel);
 
             buttonConvert.addActionListener(e -> {
                 try {
