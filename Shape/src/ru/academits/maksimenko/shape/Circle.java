@@ -1,7 +1,7 @@
 package ru.academits.maksimenko.shape;
 
 public class Circle implements Shape {
-    private double radius;
+    private final double radius;
 
     public Circle(double radius) {
         this.radius = radius;

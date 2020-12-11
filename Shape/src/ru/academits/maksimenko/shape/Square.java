@@ -1,7 +1,7 @@
 package ru.academits.maksimenko.shape;
 
 public class Square implements Shape {
-    private double sideLength;
+    private final double sideLength;
 
     public Square(double sideLength) {
         this.sideLength = sideLength;
