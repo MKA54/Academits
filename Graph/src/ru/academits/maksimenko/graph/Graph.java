@@ -27,14 +27,26 @@ public class Graph {
         }
     }
 
-    public void visitInWidth(IntConsumer consumer) {
+    private void visitingVertices(IntConsumer consumer, boolean isWidth, boolean isDepth) {
         boolean[] visited = new boolean[matrix.length];
 
+        for (int i = 0; i < matrix.length; i++) {
+            if (!visited[i] && isWidth) {
+                visitVertexInWidth(consumer, i, visited);
+            }
+
+            if (!visited[i] && isDepth) {
+                visitVertexInDepth(consumer, i, visited);
+            }
+        }
+    }
+
+    private void visitVertexInWidth(IntConsumer consumer, int vertex, boolean[] visited) {
         Queue<Integer> queue = new LinkedList<>();
 
-        queue.add(0);
+        queue.add(vertex);
 
-        visited[0] = true;
+        visited[vertex] = true;
 
         while (!queue.isEmpty()) {
             int currentVertex = queue.remove();
@@ -48,55 +60,39 @@ public class Graph {
                     visited[i] = true;
                 }
             }
+        }
+    }
 
-            if (queue.isEmpty()) {
-                for (int i = 0; i < visited.length; i++) {
-                    if (!visited[i]) {
-                        queue.add(i);
+    private void visitVertexInDepth(IntConsumer consumer, int vertex, boolean[] visited) {
+        Deque<Integer> stack = new LinkedList<>();
 
-                        visited[i] = true;
+        stack.addLast(vertex);
 
-                        break;
-                    }
+        while (!stack.isEmpty()) {
+            int currentVertex = stack.removeLast();
+
+            if (visited[currentVertex]) {
+                continue;
+            }
+
+            consumer.accept(currentVertex);
+
+            visited[currentVertex] = true;
+
+            for (int i = matrix[currentVertex].length - 1; i >= 0; i--) {
+                if (matrix[currentVertex][i] == 1 && !visited[i]) {
+                    stack.addLast(i);
                 }
             }
         }
     }
 
+    public void visitInWidth(IntConsumer consumer) {
+        visitingVertices(consumer, true, false);
+    }
+
     public void visitInDepth(IntConsumer consumer) {
-        boolean[] visited = new boolean[matrix.length];
-
-        Deque<Integer> stack = new LinkedList<>();
-
-        stack.addLast(0);
-
-        visited[0] = true;
-
-        while (!stack.isEmpty()) {
-            int currentVertex = stack.removeLast();
-
-            consumer.accept(currentVertex);
-
-            for (int i = 0; i < matrix[currentVertex].length; i++) {
-                if (matrix[currentVertex][i] == 1 && !visited[i]) {
-                    stack.addLast(i);
-
-                    visited[i] = true;
-                }
-            }
-
-            if (stack.isEmpty()) {
-                for (int i = 0; i < matrix[currentVertex].length; i++) {
-                    if (!visited[i]) {
-                        stack.addLast(i);
-
-                        visited[i] = true;
-
-                        break;
-                    }
-                }
-            }
-        }
+        visitingVertices(consumer, false, true);
     }
 
     public void visitInDepthRecursion(IntConsumer consumer) {
