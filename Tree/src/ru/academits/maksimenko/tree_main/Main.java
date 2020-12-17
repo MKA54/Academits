@@ -10,6 +10,7 @@ public class Main {
 
         numbers1.add(15);
         numbers1.add(13);
+        numbers1.add(null);
         numbers1.add(28);
         numbers1.add(11);
         numbers1.add(16);
@@ -24,10 +25,10 @@ public class Main {
 
         System.out.println("Количество элементов в дереве: " + numbers1.getSize());
 
-        boolean contains = numbers1.contains(15);
+        boolean contains = numbers1.contains(23);
         System.out.println("Наличие числа в дереве: " + contains);
 
-        boolean remove = numbers1.remove(45);
+        boolean remove = numbers1.remove(22);
         System.out.println("Проверка на удаление числа из дереве: " + remove);
 
         System.out.println("Количество элементов в дереве: " + numbers1.getSize());

@@ -19,9 +19,21 @@ public class Tree<T> {
         return size;
     }
 
-    private int getComparisonResult(T data1, T data2) {
+    private int compare(T data1, T data2) {
         if (comparator != null) {
             return comparator.compare(data1, data2);
+        }
+
+        if (data1 == null && data2 == null) {
+            return 0;
+        }
+
+        if (data1 == null) {
+            return -1;
+        }
+
+        if (data2 == null) {
+            return 1;
         }
 
         //noinspection unchecked
@@ -31,10 +43,6 @@ public class Tree<T> {
     }
 
     public void add(T data) {
-        if (data == null) {
-            return;
-        }
-
         if (size == 0) {
             root = new TreeNode<>(data);
 
@@ -46,9 +54,9 @@ public class Tree<T> {
         TreeNode<T> current = root;
 
         while (true) {
-            int afterComparisonValue = getComparisonResult(data, current.getData());
+            int comparisonResult = compare(data, current.getData());
 
-            if (afterComparisonValue < 0) {
+            if (comparisonResult < 0) {
                 if (current.getLeft() == null) {
                     current.setLeft(new TreeNode<>(data));
 
@@ -73,18 +81,14 @@ public class Tree<T> {
     }
 
     public boolean contains(T data) {
-        if (data == null) {
-            return false;
-        }
-
         for (TreeNode<T> current = root; current != null; ) {
-            int afterComparisonValue = getComparisonResult(data, current.getData());
+            int comparisonResult = compare(data, current.getData());
 
-            if (afterComparisonValue == 0) {
+            if (comparisonResult == 0) {
                 return true;
             }
 
-            if (afterComparisonValue < 0) {
+            if (comparisonResult < 0) {
                 if (current.getLeft() == null) {
                     return false;
                 }
@@ -105,18 +109,14 @@ public class Tree<T> {
     }
 
     public boolean remove(T data) {
-        if (data == null) {
-            return false;
-        }
-
         final int initialSize = size;
 
         for (TreeNode<T> current = root, previous = null; current != null; ) {
-            int afterCurrentComparison = getComparisonResult(data, current.getData());
+            int afterCurrentComparison = compare(data, current.getData());
 
             int afterPreviousComparison = previous == null
                     ? 0 :
-                    getComparisonResult(data, previous.getData());
+                    compare(data, previous.getData());
 
             if (afterCurrentComparison == 0 && current.getLeft() == null && current.getRight() == null) {
                 if (current == root) {
