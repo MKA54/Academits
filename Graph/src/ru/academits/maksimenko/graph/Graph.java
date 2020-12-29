@@ -27,20 +27,6 @@ public class Graph {
         }
     }
 
-    private void visitingVertices(IntConsumer consumer, boolean isWidth, boolean isDepth) {
-        boolean[] visited = new boolean[matrix.length];
-
-        for (int i = 0; i < matrix.length; i++) {
-            if (!visited[i] && isWidth) {
-                visitVertexInWidth(consumer, i, visited);
-            }
-
-            if (!visited[i] && isDepth) {
-                visitVertexInDepth(consumer, i, visited);
-            }
-        }
-    }
-
     private void visitVertexInWidth(IntConsumer consumer, int vertex, boolean[] visited) {
         Queue<Integer> queue = new LinkedList<>();
 
@@ -88,34 +74,42 @@ public class Graph {
     }
 
     public void visitInWidth(IntConsumer consumer) {
-        visitingVertices(consumer, true, false);
+        boolean[] visited = new boolean[matrix.length];
+
+        for (int i = 0; i < matrix.length; i++) {
+            if (!visited[i]) {
+                visitVertexInWidth(consumer, i, visited);
+            }
+        }
     }
 
     public void visitInDepth(IntConsumer consumer) {
-        visitingVertices(consumer, false, true);
+        boolean[] visited = new boolean[matrix.length];
+
+        for (int i = 0; i < matrix.length; i++) {
+            if (!visited[i]) {
+                visitVertexInDepth(consumer, i, visited);
+            }
+        }
     }
 
     public void visitInDepthRecursion(IntConsumer consumer) {
-        visit(0, consumer, new boolean[matrix.length]);
+        boolean[] visited = new boolean[matrix.length];
+
+        for (int i = 0; i < matrix[0].length; i++) {
+            if (!visited[i]) {
+                visit(i, consumer, visited);
+            }
+        }
     }
 
     private void visit(int currentVertex, IntConsumer consumer, boolean[] visited) {
-        if (visited[currentVertex]) {
-            return;
-        }
-
         visited[currentVertex] = true;
 
         consumer.accept(currentVertex);
 
         for (int i = 0; i < matrix[currentVertex].length; i++) {
             if (matrix[currentVertex][i] == 1 && !visited[i]) {
-                visit(i, consumer, visited);
-            }
-        }
-
-        for (int i = 0; i < matrix[currentVertex].length; i++) {
-            if (!visited[i]) {
                 visit(i, consumer, visited);
             }
         }
