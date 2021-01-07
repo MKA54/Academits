@@ -54,20 +54,18 @@ public class Graph {
 
         stack.addLast(vertex);
 
+        visited[vertex] = true;
+
         while (!stack.isEmpty()) {
             int currentVertex = stack.removeLast();
 
-            if (visited[currentVertex]) {
-                continue;
-            }
-
             consumer.accept(currentVertex);
-
-            visited[currentVertex] = true;
 
             for (int i = matrix[currentVertex].length - 1; i >= 0; i--) {
                 if (matrix[currentVertex][i] == 1 && !visited[i]) {
                     stack.addLast(i);
+
+                    visited[i] = true;
                 }
             }
         }
