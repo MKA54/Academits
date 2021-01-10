@@ -6,14 +6,14 @@ import java.util.Objects;
 
 class ConversionTemperatures {
     private final Scale temperatureScale;
-
-    private ResultPanel resultPanel;
+    private final FrameView frameView;
 
     private String initialTemperature = "Цельсий";
     private String endTemperature = "Цельсий";
 
-    public ConversionTemperatures(Scale temperatureScale) {
+    public ConversionTemperatures(FrameView frameView, Scale temperatureScale) {
         this.temperatureScale = temperatureScale;
+        this.frameView = frameView;
     }
 
     public void conversion(double temperature) {
@@ -45,7 +45,7 @@ class ConversionTemperatures {
             temperature = temperatureScale.convertFahrenheitToKelvinTemperature(temperature);
         }
 
-        resultPanel.setResultPanel(temperature);
+        frameView.updateResultPanel(temperature);
     }
 
     public void setInitialTemperature(String initialTemperature) {
@@ -54,9 +54,5 @@ class ConversionTemperatures {
 
     public void setEndTemperature(String endTemperature) {
         this.endTemperature = endTemperature;
-    }
-
-    public void setResultPanel(ResultPanel resultPanel) {
-        this.resultPanel = resultPanel;
     }
 }
