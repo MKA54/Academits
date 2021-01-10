@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 public class Tree<T> {
     private TreeNode<T> root;
+    private TreeNode<T> previousNode;
     private int size;
     private Comparator<? super T> comparator;
 
@@ -80,183 +81,150 @@ public class Tree<T> {
         ++size;
     }
 
-    public boolean contains(T data) {
+    private TreeNode<T> findNode(T data) {
         for (TreeNode<T> current = root; current != null; ) {
             int comparisonResult = compare(data, current.getData());
 
             if (comparisonResult == 0) {
-                return true;
+                return current;
             }
 
             if (comparisonResult < 0) {
                 if (current.getLeft() == null) {
-                    return false;
+                    return null;
                 }
 
+                previousNode = current;
                 current = current.getLeft();
 
                 continue;
             }
 
             if (current.getRight() == null) {
-                return false;
+                return null;
             }
 
+            previousNode = current;
             current = current.getRight();
         }
 
-        return false;
+        return null;
+    }
+
+    public boolean contains(T data) {
+        return findNode(data) != null;
     }
 
     public boolean remove(T data) {
-        final int initialSize = size;
+        TreeNode<T> removingNode = findNode(data);
 
-        for (TreeNode<T> current = root, previous = null; current != null; ) {
-            int afterCurrentComparison = compare(data, current.getData());
-
-            int afterPreviousComparison = previous == null
-                    ? 0 :
-                    compare(data, previous.getData());
-
-            if (afterCurrentComparison == 0 && current.getLeft() == null && current.getRight() == null) {
-                if (current == root) {
-                    size--;
-
-                    root = null;
-
-                    break;
-                }
-
-                if (afterPreviousComparison < 0) {
-                    previous.setLeft(null);
-                } else {
-                    assert previous != null;
-                    previous.setRight(null);
-                }
-
-                size--;
-
-                break;
-            }
-
-            if (afterCurrentComparison == 0 && current.getLeft() != null && current.getRight() != null) {
-                if (current.getRight().getLeft() == null) {
-                    current.getRight().setLeft(current.getLeft());
-
-                    if (afterPreviousComparison < 0) {
-                        previous.setLeft(current.getRight());
-                    } else {
-                        assert previous != null;
-                        previous.setRight(current.getRight());
-                    }
-
-                    size--;
-
-                    break;
-                }
-
-                TreeNode<T> leftParent = null;
-                TreeNode<T> leftmost = current.getRight();
-
-                while (leftmost.getLeft() != null) {
-                    leftParent = leftmost;
-
-                    leftmost = leftmost.getLeft();
-                }
-
-                if (leftmost.getRight() != null && leftParent != null) {
-                    leftParent.setLeft(leftmost.getRight());
-                }
-
-                if (leftmost.getRight() == null && leftParent != null) {
-                    leftParent.setLeft(null);
-                }
-
-                if (current == root) {
-                    root = leftmost;
-
-                    leftmost.setLeft(current.getLeft());
-
-                    if (current.getRight() == leftmost) {
-                        leftmost.setRight(null);
-                    } else {
-                        leftmost.setRight(current.getRight());
-                    }
-
-                    size--;
-
-                    break;
-                }
-
-                assert previous != null;
-                if (afterPreviousComparison < 0) {
-                    previous.setLeft(leftmost);
-                } else {
-                    previous.setRight(leftmost);
-                }
-
-                leftmost.setLeft(current.getLeft());
-                leftmost.setRight(current.getRight());
-
-                size--;
-
-                break;
-            }
-
-            if (afterCurrentComparison == 0 && current.getLeft() != null) {
-                if (current == root) {
-                    root = current.getLeft();
-
-                    --size;
-
-                    break;
-                }
-
-                if (afterPreviousComparison < 0) {
-                    previous.setLeft(current.getLeft());
-                } else {
-                    assert previous != null;
-                    previous.setRight(current.getLeft());
-                }
-
-                --size;
-
-                break;
-            }
-
-            if (afterCurrentComparison == 0 && current.getRight() != null) {
-                if (current == root) {
-                    root = current.getRight();
-
-                    --size;
-
-                    break;
-                }
-
-                if (afterPreviousComparison < 0) {
-                    previous.setLeft(current.getRight());
-                } else {
-                    assert previous != null;
-                    previous.setRight(current.getRight());
-                }
-
-                --size;
-
-                break;
-            }
-
-            previous = current;
-
-            if (afterCurrentComparison < 0) {
-                current = current.getLeft();
-
-                continue;
-            }
-
-            current = current.getRight();
+        if (removingNode == null) {
+            return false;
         }
 
-        return initialSize != size;
+        if (removingNode == root) {
+            removeRoot(removingNode);
+
+            size--;
+
+            return true;
+        }
+
+        if (removingNode.getLeft() == null && removingNode.getRight() == null) {
+            if (previousNode.getRight() == removingNode) {
+                previousNode.setRight(null);
+
+                size--;
+
+                return true;
+            }
+
+            previousNode.setLeft(null);
+
+            size--;
+
+            return true;
+        }
+
+        if (removingNode.getLeft() != null && removingNode.getRight() != null) {
+            removeWithTwoChildren(removingNode);
+
+            size--;
+
+            return true;
+        }
+
+        if (previousNode.getLeft() == removingNode) {
+            previousNode.setLeft(determineChild(removingNode));
+        } else {
+            previousNode.setRight(determineChild(removingNode));
+        }
+
+        size--;
+
+        return true;
+    }
+
+    private void removeRoot(TreeNode<T> removingNode) {
+        if (removingNode.getLeft() == null && removingNode.getRight() == null) {
+            root = null;
+
+            return;
+        }
+
+        if (removingNode.getRight() == null) {
+            root = removingNode.getLeft();
+
+            return;
+        }
+
+        removeWithTwoChildren(removingNode);
+    }
+
+    private void removeWithTwoChildren(TreeNode<T> removingNode) {
+        TreeNode<T> parent = null;
+        TreeNode<T> leftmost = removingNode.getRight();
+
+        while (leftmost.getLeft() != null) {
+            parent = leftmost;
+
+            leftmost = leftmost.getLeft();
+        }
+
+        if (parent != null) {
+            if (leftmost.getRight() != null) {
+                parent.setLeft(leftmost.getRight());
+            } else {
+                parent.setLeft(null);
+            }
+        }
+
+        if (previousNode != null) {
+            if (previousNode.getLeft() == removingNode) {
+                previousNode.setLeft(leftmost);
+            } else {
+                previousNode.setRight(leftmost);
+            }
+        }
+
+        leftmost.setLeft(removingNode.getLeft());
+        leftmost.setRight(removingNode.getRight() == leftmost
+                ? leftmost.getRight() == null
+                ? null
+                : leftmost.getRight()
+                : removingNode.getRight());
+
+        if (removingNode == root) {
+            root = leftmost;
+        }
+    }
+
+    private TreeNode<T> determineChild(TreeNode<T> removingNode) {
+        if (removingNode.getLeft() != null) {
+            return removingNode.getLeft();
+        }
+
+        return removingNode.getRight();
     }
 
     public void visitInWidth(Consumer<T> consumer) {

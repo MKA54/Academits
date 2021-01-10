@@ -10,7 +10,6 @@ public class Main {
 
         numbers1.add(15);
         numbers1.add(13);
-        numbers1.add(null);
         numbers1.add(28);
         numbers1.add(11);
         numbers1.add(16);
@@ -25,10 +24,10 @@ public class Main {
 
         System.out.println("Количество элементов в дереве: " + numbers1.getSize());
 
-        boolean contains = numbers1.contains(23);
+        boolean contains = numbers1.contains(55);
         System.out.println("Наличие числа в дереве: " + contains);
 
-        boolean remove = numbers1.remove(22);
+        boolean remove = numbers1.remove(29);
         System.out.println("Проверка на удаление числа из дереве: " + remove);
 
         System.out.println("Количество элементов в дереве: " + numbers1.getSize());
@@ -51,9 +50,6 @@ public class Main {
         numbers2.add(17);
         numbers2.add(8);
         numbers2.add(7);
-        numbers2.add(14);
-        numbers2.add(16);
-        numbers2.add(25);
 
         System.out.println("Обход дерева в ширину:");
         numbers2.visitInWidth(System.out::println);
