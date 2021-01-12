@@ -1,15 +1,9 @@
 package ru.academits.maksimenko.model;
 
 public interface Scale {
-    double convertCelsiusToFahrenheitTemperature(double celsius);
+    double convertCelsius(double temperature);
 
-    double convertCelsiusToKelvinTemperature(double celsius);
+    double convertFahrenheit(double temperature);
 
-    double convertFahrenheitToCelsiusTemperature(double fahrenheit);
-
-    double convertFahrenheitToKelvinTemperature(double fahrenheit);
-
-    double convertKelvinToCelsiusTemperature(double kelvin);
-
-    double convertKelvinToFahrenheitTemperature(double kelvin);
+    double convertKelvin(double temperature);
 }

@@ -7,16 +7,20 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class FrameView implements View {
-    private final Scale temperatureScale;
-    private final ScaleButtonsList scaleButtonsList;
+    private final Scale[] scales;
+
+    private Scale initialScale;
+    private Scale resultingScale;
 
     private JFrame frame;
     private JPanel resultPanel;
     private final JLabel resultLabel;
 
-    public FrameView(Scale temperatureScale, ScaleButtonsList scaleButtonsList) {
-        this.temperatureScale = temperatureScale;
-        this.scaleButtonsList = scaleButtonsList;
+    public FrameView(Scale[] scales) {
+        this.scales = scales;
+        initialScale = scales[0];
+        resultingScale = scales[0];
+
         resultLabel = new JLabel();
     }
 
@@ -43,9 +47,11 @@ public class FrameView implements View {
             inputPanel.add(inputLabel);
 
             JTextField temperatureField = new JTextField(8);
+
             inputPanel.add(temperatureField);
 
             JButton buttonConvert = new JButton("Сконвертировать");
+
             inputPanel.add(buttonConvert);
 
             frame.add(inputPanel, BorderLayout.PAGE_START);
@@ -55,50 +61,49 @@ public class FrameView implements View {
 
             initialTemperaturePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            JLabel initialScale = new JLabel("Выберите начальную шкалу");
+            JLabel selectInitialScale = new JLabel("Выберите начальную шкалу");
 
-            initialTemperaturePanel.add(initialScale);
+            initialTemperaturePanel.add(selectInitialScale);
+
             initialTemperaturePanel.add(Box.createRigidArea(new Dimension(5, 5)));
 
-            JComboBox<String> initScalesList = new JComboBox<>(scaleButtonsList.addTemperatureScale());
-            initialTemperaturePanel.add(initScalesList);
+            JComboBox<Scale> initialScaleBox = new JComboBox<>(scales);
 
-            ConversionTemperatures conversionTemperatures = new ConversionTemperatures(this, temperatureScale);
+            initialTemperaturePanel.add(initialScaleBox);
 
             ActionListener initActionListener = e -> {
-                JComboBox<String> box = (JComboBox<String>) e.getSource();
-                String item = (String) box.getSelectedItem();
+                JComboBox box = (JComboBox) e.getSource();
 
-                conversionTemperatures.setInitialTemperature(item);
+                initialScale = (Scale) box.getSelectedItem();
             };
 
-            initScalesList.addActionListener(initActionListener);
+            initialScaleBox.addActionListener(initActionListener);
 
             frame.add(initialTemperaturePanel, BorderLayout.LINE_START);
 
-            JPanel endTemperaturePanel = new JPanel();
-            endTemperaturePanel.setLayout(new BoxLayout(endTemperaturePanel, BoxLayout.PAGE_AXIS));
+            JPanel resultingTemperaturePanel = new JPanel();
+            resultingTemperaturePanel.setLayout(new BoxLayout(resultingTemperaturePanel, BoxLayout.PAGE_AXIS));
 
-            endTemperaturePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            resultingTemperaturePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            JLabel resultingScale = new JLabel("Выберите результирующую шкалу");
-            endTemperaturePanel.add(resultingScale);
+            JLabel selectResultingScale = new JLabel("Выберите результирующую шкалу");
+            resultingTemperaturePanel.add(selectResultingScale);
 
-            endTemperaturePanel.add(Box.createRigidArea(new Dimension(5, 5)));
+            resultingTemperaturePanel.add(Box.createRigidArea(new Dimension(5, 5)));
 
-            JComboBox<String> endScalesList = new JComboBox<>(scaleButtonsList.addTemperatureScale());
-            endTemperaturePanel.add(endScalesList);
+            JComboBox<Scale> resultingScaleBox = new JComboBox<>(scales);
+
+            resultingTemperaturePanel.add(resultingScaleBox);
 
             ActionListener endActionListener = e -> {
-                JComboBox<String> box = (JComboBox<String>) e.getSource();
-                String item = (String) box.getSelectedItem();
+                JComboBox box = (JComboBox) e.getSource();
 
-                conversionTemperatures.setEndTemperature(item);
+                resultingScale = (Scale) box.getSelectedItem();
             };
 
-            endScalesList.addActionListener(endActionListener);
+            resultingScaleBox.addActionListener(endActionListener);
 
-            frame.add(endTemperaturePanel, BorderLayout.CENTER);
+            frame.add(resultingTemperaturePanel, BorderLayout.CENTER);
 
             resultPanel = new JPanel();
 
@@ -108,7 +113,31 @@ public class FrameView implements View {
                 try {
                     double initialTemperature = Double.parseDouble(temperatureField.getText());
 
-                    conversionTemperatures.conversion(initialTemperature);
+                    if (initialScale == scales[0] && resultingScale == scales[1]) {
+                        initialTemperature = initialScale.convertFahrenheit(initialTemperature);
+                    }
+
+                    if (initialScale == scales[0] && resultingScale == scales[2]) {
+                        initialTemperature = initialScale.convertKelvin(initialTemperature);
+                    }
+
+                    if (initialScale == scales[1] && resultingScale == scales[0]) {
+                        initialTemperature = initialScale.convertCelsius(initialTemperature);
+                    }
+
+                    if (initialScale == scales[1] && resultingScale == scales[2]) {
+                        initialTemperature = initialScale.convertKelvin(initialTemperature);
+                    }
+
+                    if (initialScale == scales[2] && resultingScale == scales[0]) {
+                        initialTemperature = initialScale.convertCelsius(initialTemperature);
+                    }
+
+                    if (initialScale == scales[2] && resultingScale == scales[1]) {
+                        initialTemperature = initialScale.convertFahrenheit(initialTemperature);
+                    }
+
+                    updateResultPanel(initialTemperature);
                 } catch (NumberFormatException exception) {
                     JOptionPane.showMessageDialog(null, "Необходимо ввести число", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
