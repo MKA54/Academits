@@ -45,7 +45,7 @@ public class Main {
         System.out.println("Размер списка: " + list.size());
         System.out.println(list);
 
-        ProducerConsumerManager producerConsumerManager = new ProducerConsumerManager(5, 4);
+        ProducerConsumerManager producerConsumerManager = new ProducerConsumerManager(5, 3);
         producerConsumerManager.start();
     }
 
