@@ -11,7 +11,7 @@ public class ProducerRunnable implements Runnable {
             int i = 1;
 
             while (!Thread.currentThread().isInterrupted()) {
-                Thread.sleep(1000);
+                Thread.sleep(1500);
 
                 producerConsumerManager.addItem("Элемент " + i);
 
