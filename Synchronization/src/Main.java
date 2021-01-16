@@ -46,6 +46,7 @@ public class Main {
         System.out.println(list);
 
         ProducerConsumerManager producerConsumerManager = new ProducerConsumerManager(5, 3);
+
         producerConsumerManager.start();
     }
 

@@ -9,6 +9,8 @@ public class ConsumerRunnable implements Runnable {
     public void run() {
         try {
             while (!Thread.currentThread().isInterrupted()) {
+                Thread.sleep(1500);
+
                 String item = producerConsumerManager.getItem();
 
                 System.out.println("Обработан " + item);
