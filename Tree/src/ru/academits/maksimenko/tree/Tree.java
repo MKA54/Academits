@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 
 public class Tree<T> {
     private TreeNode<T> root;
-    private TreeNode<T> previousNode;
     private int size;
     private Comparator<? super T> comparator;
 
@@ -81,12 +80,20 @@ public class Tree<T> {
         ++size;
     }
 
-    private TreeNode<T> findNode(T data) {
-        for (TreeNode<T> current = root; current != null; ) {
+    private ArrayList<TreeNode<T>> findNode(T data) {
+        TreeNode<T> previousNode = null;
+        TreeNode<T> current = root;
+
+        while (current != null) {
             int comparisonResult = compare(data, current.getData());
 
             if (comparisonResult == 0) {
-                return current;
+                ArrayList<TreeNode<T>> nodes = new ArrayList<>();
+
+                nodes.add(previousNode);
+                nodes.add(current);
+
+                return nodes;
             }
 
             if (comparisonResult < 0) {
@@ -116,14 +123,17 @@ public class Tree<T> {
     }
 
     public boolean remove(T data) {
-        TreeNode<T> removingNode = findNode(data);
+        ArrayList<TreeNode<T>> nodes = findNode(data);
 
-        if (removingNode == null) {
+        if (nodes == null) {
             return false;
         }
 
+        TreeNode<T> previousNode = nodes.get(0);
+        TreeNode<T> removingNode = nodes.get(1);
+
         if (removingNode == root) {
-            removeRoot(removingNode);
+            removeRoot(removingNode, previousNode);
 
             size--;
 
@@ -147,7 +157,7 @@ public class Tree<T> {
         }
 
         if (removingNode.getLeft() != null && removingNode.getRight() != null) {
-            removeWithTwoChildren(removingNode);
+            removeNodeWithTwoChildren(removingNode, previousNode);
 
             size--;
 
@@ -165,7 +175,7 @@ public class Tree<T> {
         return true;
     }
 
-    private void removeRoot(TreeNode<T> removingNode) {
+    private void removeRoot(TreeNode<T> removingNode, TreeNode<T> previousNode) {
         if (removingNode.getLeft() == null && removingNode.getRight() == null) {
             root = null;
 
@@ -178,10 +188,10 @@ public class Tree<T> {
             return;
         }
 
-        removeWithTwoChildren(removingNode);
+        removeNodeWithTwoChildren(removingNode, previousNode);
     }
 
-    private void removeWithTwoChildren(TreeNode<T> removingNode) {
+    private void removeNodeWithTwoChildren(TreeNode<T> removingNode, TreeNode<T> previousNode) {
         TreeNode<T> parent = null;
         TreeNode<T> leftmost = removingNode.getRight();
 
@@ -208,11 +218,12 @@ public class Tree<T> {
         }
 
         leftmost.setLeft(removingNode.getLeft());
-        leftmost.setRight(removingNode.getRight() == leftmost
-                ? leftmost.getRight() == null
-                ? null
-                : leftmost.getRight()
-                : removingNode.getRight());
+
+        if (removingNode.getRight() == leftmost) {
+            leftmost.setRight(leftmost.getRight());
+        } else {
+            leftmost.setRight(removingNode.getRight());
+        }
 
         if (removingNode == root) {
             root = leftmost;
