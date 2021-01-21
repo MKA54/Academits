@@ -1,7 +1,7 @@
-package ru.academits.maksimenko.main;
+package ru.academits.temperature_conversion.maksimenko.main;
 
-import ru.academits.maksimenko.classes.Car;
-import ru.academits.maksimenko.classes.House;
+import ru.academits.temperature_conversion.maksimenko.classes.Car;
+import ru.academits.temperature_conversion.maksimenko.classes.House;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

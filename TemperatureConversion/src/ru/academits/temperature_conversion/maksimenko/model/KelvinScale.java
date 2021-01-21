@@ -1,17 +1,17 @@
-package ru.academits.maksimenko.model;
+package ru.academits.temperature_conversion.maksimenko.model;
 
 public class KelvinScale implements Scale {
-    static double absoluteZero = 273.15;
-    static int iceMeltingTemperature = 32;
+    private static final double celsiusAbsoluteZero = 273.15;
+    private static final int fahrenheitIceMeltingTemperature = 32;
 
     @Override
     public double convertCelsius(double temperature) {
-        return temperature - absoluteZero;
+        return temperature - celsiusAbsoluteZero;
     }
 
     @Override
     public double convertFahrenheit(double temperature) {
-        return (temperature - absoluteZero) * 1.8 + iceMeltingTemperature;
+        return (temperature - celsiusAbsoluteZero) * 1.8 + fahrenheitIceMeltingTemperature;
     }
 
     @Override

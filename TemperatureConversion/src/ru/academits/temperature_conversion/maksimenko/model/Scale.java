@@ -1,4 +1,4 @@
-package ru.academits.maksimenko.model;
+package ru.academits.temperature_conversion.maksimenko.model;
 
 public interface Scale {
     double convertCelsius(double temperature);

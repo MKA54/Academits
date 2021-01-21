@@ -1,6 +1,6 @@
-package ru.academits.maksimenko.view;
+package ru.academits.temperature_conversion.maksimenko.view;
 
-import ru.academits.maksimenko.model.Scale;
+import ru.academits.temperature_conversion.maksimenko.model.Scale;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,19 +9,17 @@ import java.awt.event.ActionListener;
 public class FrameView implements View {
     private final Scale[] scales;
 
-    private Scale initialScale;
+    private Scale originalScale;
     private Scale resultingScale;
 
     private JFrame frame;
     private JPanel resultPanel;
-    private final JLabel resultLabel;
+    private JLabel resultLabel;
 
     public FrameView(Scale[] scales) {
         this.scales = scales;
-        initialScale = scales[0];
+        originalScale = scales[0];
         resultingScale = scales[0];
-
-        resultLabel = new JLabel();
     }
 
     @Override
@@ -61,20 +59,21 @@ public class FrameView implements View {
 
             initialTemperaturePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            JLabel selectInitialScale = new JLabel("Выберите начальную шкалу");
+            JLabel selectInitialScale = new JLabel("Выберите начальную шкалу", JLabel.LEFT);
 
             initialTemperaturePanel.add(selectInitialScale);
 
             initialTemperaturePanel.add(Box.createRigidArea(new Dimension(5, 5)));
 
             JComboBox<Scale> initialScaleBox = new JComboBox<>(scales);
+            initialScaleBox.setMaximumSize(new Dimension(90, 25));
 
             initialTemperaturePanel.add(initialScaleBox);
 
             ActionListener initActionListener = e -> {
                 JComboBox box = (JComboBox) e.getSource();
 
-                initialScale = (Scale) box.getSelectedItem();
+                originalScale = (Scale) box.getSelectedItem();
             };
 
             initialScaleBox.addActionListener(initActionListener);
@@ -86,12 +85,14 @@ public class FrameView implements View {
 
             resultingTemperaturePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            JLabel selectResultingScale = new JLabel("Выберите результирующую шкалу");
+            JLabel selectResultingScale = new JLabel("Выберите результирующую шкалу", JLabel.LEFT);
+
             resultingTemperaturePanel.add(selectResultingScale);
 
             resultingTemperaturePanel.add(Box.createRigidArea(new Dimension(5, 5)));
 
             JComboBox<Scale> resultingScaleBox = new JComboBox<>(scales);
+            resultingScaleBox.setMaximumSize(new Dimension(90, 25));
 
             resultingTemperaturePanel.add(resultingScaleBox);
 
@@ -113,28 +114,28 @@ public class FrameView implements View {
                 try {
                     double initialTemperature = Double.parseDouble(temperatureField.getText());
 
-                    if (initialScale == scales[0] && resultingScale == scales[1]) {
-                        initialTemperature = initialScale.convertFahrenheit(initialTemperature);
+                    if (originalScale == scales[0] && resultingScale == scales[1]) {
+                        initialTemperature = originalScale.convertFahrenheit(initialTemperature);
                     }
 
-                    if (initialScale == scales[0] && resultingScale == scales[2]) {
-                        initialTemperature = initialScale.convertKelvin(initialTemperature);
+                    if (originalScale == scales[0] && resultingScale == scales[2]) {
+                        initialTemperature = originalScale.convertKelvin(initialTemperature);
                     }
 
-                    if (initialScale == scales[1] && resultingScale == scales[0]) {
-                        initialTemperature = initialScale.convertCelsius(initialTemperature);
+                    if (originalScale == scales[1] && resultingScale == scales[0]) {
+                        initialTemperature = originalScale.convertCelsius(initialTemperature);
                     }
 
-                    if (initialScale == scales[1] && resultingScale == scales[2]) {
-                        initialTemperature = initialScale.convertKelvin(initialTemperature);
+                    if (originalScale == scales[1] && resultingScale == scales[2]) {
+                        initialTemperature = originalScale.convertKelvin(initialTemperature);
                     }
 
-                    if (initialScale == scales[2] && resultingScale == scales[0]) {
-                        initialTemperature = initialScale.convertCelsius(initialTemperature);
+                    if (originalScale == scales[2] && resultingScale == scales[0]) {
+                        initialTemperature = originalScale.convertCelsius(initialTemperature);
                     }
 
-                    if (initialScale == scales[2] && resultingScale == scales[1]) {
-                        initialTemperature = initialScale.convertFahrenheit(initialTemperature);
+                    if (originalScale == scales[2] && resultingScale == scales[1]) {
+                        initialTemperature = originalScale.convertFahrenheit(initialTemperature);
                     }
 
                     updateResultPanel(initialTemperature);
@@ -143,12 +144,14 @@ public class FrameView implements View {
                 }
             });
 
+            resultLabel = new JLabel();
+
             frame.pack();
             frame.setLocationRelativeTo(null);
         });
     }
 
-    public void updateResultPanel(double result) {
+    private void updateResultPanel(double result) {
         resultLabel.setText("Результат: " + result);
 
         resultPanel.add(resultLabel);
