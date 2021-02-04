@@ -1,14 +1,13 @@
 package ru.academits.temperature_conversion.maksimenko.view;
 
 import ru.academits.temperature_conversion.maksimenko.model.Scale;
-import ru.academits.temperature_conversion.maksimenko.model.TemperaturesConversion;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class FrameView implements View {
-    private final TemperaturesConversion temperaturesConversionLogic;
+    private final Scale[] scales;
 
     private Scale originalScale;
     private Scale resultingScale;
@@ -17,11 +16,11 @@ public class FrameView implements View {
     private JPanel resultPanel;
     private JLabel resultLabel;
 
-    public FrameView(TemperaturesConversion temperaturesConversion) {
-        this.temperaturesConversionLogic = temperaturesConversion;
+    public FrameView(Scale[] scales) {
+        this.scales = scales;
 
-        originalScale = temperaturesConversion.getInitialScale();
-        resultingScale = temperaturesConversion.getInitialScale();
+        originalScale = scales[0];
+        resultingScale = scales[0];
     }
 
     @Override
@@ -68,7 +67,7 @@ public class FrameView implements View {
 
             initialTemperaturePanel.add(Box.createRigidArea(new Dimension(5, 5)));
 
-            JComboBox<Scale> initialScaleBox = new JComboBox<>(temperaturesConversionLogic.getScalesList());
+            JComboBox<Scale> initialScaleBox = new JComboBox<>(scales);
             initialScaleBox.setMaximumSize(new Dimension(90, 25));
             initialScaleBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -96,7 +95,7 @@ public class FrameView implements View {
 
             resultingTemperaturePanel.add(Box.createRigidArea(new Dimension(5, 5)));
 
-            JComboBox<Scale> resultingScaleBox = new JComboBox<>(temperaturesConversionLogic.getScalesList());
+            JComboBox<Scale> resultingScaleBox = new JComboBox<>(scales);
             resultingScaleBox.setMaximumSize(new Dimension(90, 25));
             resultingScaleBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -120,7 +119,7 @@ public class FrameView implements View {
                 try {
                     double initialTemperature = Double.parseDouble(temperatureField.getText());
 
-                    updateResultPanel(temperaturesConversionLogic.convertTemperature(initialTemperature, originalScale, resultingScale));
+                    updateResultPanel(resultingScale.convert(originalScale.convertToCelsius(initialTemperature)));
                 } catch (NumberFormatException exception) {
                     JOptionPane.showMessageDialog(null, "Необходимо ввести число", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
