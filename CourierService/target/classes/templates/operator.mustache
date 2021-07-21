@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Оператор</title>
+    <style>
+table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid #999;
+    padding: 5px;
+}
+
+    </style>
+</head>
+<body>
+<div><b>Список заданий для прозвона клиентов.</b></div>
+<br/>
+
+<form method="post" action="filter">
+    <label for="filter">Фильтр по номеру заказа</label>
+    <input type="text" name="filter" id="filter" placeholder="Введите номер заказа" />
+    <button type="submit">Найти</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>Номер заказа</th>
+        <th>Дата и Время добавления заказа</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#ordersData}}
+        <tr>
+            <th>{{orderNumber}}</th>
+            <th>{{dateAddingOrder}}</th>
+        </tr>
+    {{/ordersData}}
+    </tbody>
+</table>
+</body>
+</html>
