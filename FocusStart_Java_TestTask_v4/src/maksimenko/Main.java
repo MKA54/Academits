@@ -17,7 +17,6 @@ public class Main {
 
         if (args.length <= 2) {
             System.out.println("Передано аргументов: " + args.length + ". Нужно передать минимум 1 файл для сортировки");
-
             return;
         }
 
