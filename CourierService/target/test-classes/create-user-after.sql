@@ -1,1 +1,0 @@
-delete from order_data;
